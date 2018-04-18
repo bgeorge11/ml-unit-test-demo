@@ -7,14 +7,14 @@ This project demostrates the usage of MarkLogic Management and CRUD APIs and int
 
 1. Import the project as MAVEN project. All dependencies are in pom,xml. 
 2. Verify the default entries in suite1.properties and user.properties in src\test\resources
-3. Build the maven project as 
+3. Build the maven project as <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i> >mvn clean install -DskipTests=true <i>  (Note the skipTests so that tests are not automatically done) 
- 4. Run the project as a Junit test project 
+ 4. Run the project as a Junit test project  <br>
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i> >mvn -Dtest=TestSuiteA test </i>
-      TestSuiteA runs the below 
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StepARunner --> Creates the databases and forests. Also attaches the forests to databases
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StepBRunner --> Executes the CRUD Operations test in parallel 
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StepCRunner --> Deletes the databases and forests created. 
+      TestSuiteA runs the below  <br>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StepARunner --> Creates the databases and forests. Also attaches the forests to databases <br>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StepBRunner --> Executes the CRUD Operations test in parallel  <br>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StepCRunner --> Deletes the databases and forests created.  <br>
      All the tests can be independently run as well. 
 # How to add new testcases 
 1. Refer one of the existing test case 
