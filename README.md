@@ -9,10 +9,10 @@ This project demostrates the usage of MarkLogic Management and CRUD APIs and int
 3. Build the maven project as <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i> >mvn clean install -DskipTests=true </i>  (Note the skipTests so that tests are not automatically done) 
  4. Run the project as a Junit test project  <br>
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i> >mvn -Dtest=TestSuiteA test </i>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i> >mvn -Dtest=TestSuiteA test </i> <br>
       TestSuiteA runs the below  <br>
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StepARunner --> Creates the databases and forests. Also attaches the forests to databases. The number and name of databases are controlled by suite1.properties <br>
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StepBRunner --> Executes the CRUD Operations test in parallel. The path to the files to upload are in DataOperations.properties <br>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StepARunner --> Creates the databases and forests. Also attaches the forests to databases. The number and name of databases are controlled by <i>suite1.properties</i> <br>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StepBRunner --> Executes the CRUD Operations test in parallel. The path to the files to upload are in <i>DataOperations.properties</i> <br>
      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StepCRunner --> Deletes the databases and forests created.  <br>
      All the tests can be independently run as well. 
 # How to add new testcases 
@@ -27,4 +27,7 @@ This project demostrates the usage of MarkLogic Management and CRUD APIs and int
 1. The package is verified with JDK 1.8 
 2. There is one demo test case (<i>DataOperationsTest0</i>) for MarkLogic Content Pump (mlcp). mlcp being a command line tool, please ensure that it is available in PATH. If there is no mlcp, do not execute that test. To skip the test place <i>@Ignore</i> annotation at the class level. 
 
+# TestSuiteB vs TestSuiteA 
+TestSuiteB does not delete the databases created. The documents loaded will remain in the databases and can be verified if required. Make sure that databases and later manually deleted or execute test <i>StepCRunner</i> to tear down the databases. Commands to run TestSuiteB <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; >mvn -Dtest=TestSuiteB test
 
