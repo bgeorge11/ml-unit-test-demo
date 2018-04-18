@@ -25,7 +25,8 @@ import com.marklogic.client.query.StringQueryDefinition;
 
 @Configuration
 @PropertySource(value = { "classpath:DataOperations.properties",
-		"classpath:user.properties" }, ignoreResourceNotFound = true)
+		                  "classpath:user.properties" }, 
+                           ignoreResourceNotFound = true)
 public class DataOperationsTest2 extends AbstractApiTest {
 
 	@Value("${mlHost}")
