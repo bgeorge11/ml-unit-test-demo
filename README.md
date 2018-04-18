@@ -19,7 +19,7 @@ This project demostrates the usage of MarkLogic Management and CRUD APIs and int
 1. Refer one of the existing test case 
 2. Create a new test case file with the file name indicating the database to be used and matching one of the patterns in <i>testClassPatterns</i> property in <i>suite1.properties</i>. For example, if <i>testClassPatterns</i> has <i>LoadTest</i>, a test case file name can be <i>JSONDocumentLoadTest12.java</i>. This will ensure that the testing is done against database created with index number 12. 
 <i>Note:</i> This is one way of linking test cases to databases. The test case java file can have their own mechanism to work against a database that was created in StepA. 
-3. To execute the testing as part of StepB, include new test file in <i>StepBRunner.java </i> in method <i>testAllDataOperations</i>
+3. To execute the testing as part of StepB, include new test file in <i>StepBRunner.java </i> in method <i>testAllDataOperations</i><br>
 <i>Note:</i> The package uses surefire plugin and is configured to run all test classes parallely. So, it is assumed that the test cases are independent. 
  
  
