@@ -7,7 +7,7 @@ This project demostrates the usage of MarkLogic Management and CRUD APIs and int
 1. Import the project as MAVEN project. All dependencies are in pom,xml. 
 2. Verify the default entries in suite1.properties and user.properties in src\test\resources
 3. Build the maven project as <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i> >mvn clean install -DskipTests=true <i>  (Note the skipTests so that tests are not automatically done) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i> >mvn clean install -DskipTests=true </i>  (Note the skipTests so that tests are not automatically done) 
  4. Run the project as a Junit test project  <br>
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i> >mvn -Dtest=TestSuiteA test </i>
       TestSuiteA runs the below  <br>
