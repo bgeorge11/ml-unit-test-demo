@@ -85,7 +85,8 @@ public class TestSuiteA {
 		assertEquals(0, results.getFailureCount());
 		endTime = new Date();
 		
-		System.out.println("TOTAL TIME OF EXECUTION = " + (endTime.getTime() - startTime.getTime())/1000 + " seconds..");
+		System.out.println("TOTAL TIME OF EXECUTION = " + 
+		                   (endTime.getTime() - startTime.getTime())/1000 + " seconds..");
 
 	}
 }
