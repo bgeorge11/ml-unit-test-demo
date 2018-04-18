@@ -1,0 +1,182 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>ml-java-api-demo</groupId>
+  <artifactId>ml-java-api-demo</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>ml-java-api-demo</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <jdk.version>1.8</jdk.version> 
+      <spring.version>5.0.5.RELEASE</spring.version> 
+      <spring.batch.version>4.0.1.RELEASE</spring.batch.version> 
+      <mysql.driver.version>5.1.25</mysql.driver.version> 
+      <junit.version>4.12</junit.version> 
+  </properties>
+  
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.21.0</version>
+            <configuration>
+                <parallel>classes</parallel>
+                <threadCount>10</threadCount>
+                <skipTests>${skipTests}</skipTests>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+ 
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- Spring Core --> 
+      <dependency> 
+         <groupId>org.springframework</groupId> 
+         <artifactId>spring-core</artifactId> 
+         <version>${spring.version}</version> 
+      </dependency>  
+      
+      <!-- Spring jdbc, for database --> 
+      <dependency> 
+         <groupId>org.springframework</groupId> 
+         <artifactId>spring-jdbc</artifactId> 
+         <version>${spring.version}</version> 
+      </dependency>  
+      
+      <!-- Spring XML to/back object --> 
+      <dependency> 
+         <groupId>org.springframework</groupId> 
+         <artifactId>spring-oxm</artifactId> 
+         <version>${spring.version}</version> 
+      </dependency>  
+      
+      <!-- Spring Batch dependencies --> 
+      <dependency> 
+         <groupId>org.springframework.batch</groupId> 
+         <artifactId>spring-batch-core</artifactId> 
+         <version>${spring.batch.version}</version> 
+      </dependency> 
+  
+      <dependency> 
+         <groupId>org.springframework.batch</groupId> 
+         <artifactId>spring-batch-infrastructure</artifactId> 
+         <version>${spring.batch.version}</version> 
+      </dependency>  
+  
+      <!-- Spring Batch unit test --> 
+      <dependency> 
+         <groupId>org.springframework.batch</groupId> 
+         <artifactId>spring-batch-test</artifactId> 
+         <version>${spring.batch.version}</version> 
+      </dependency> 
+      
+      <dependency>
+    <groupId>com.marklogic</groupId>
+    <artifactId>marklogic-client-api</artifactId>
+    <version>4.0.3.1</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.marklogic/marklogic-xcc -->
+<dependency>
+    <groupId>com.marklogic</groupId>
+    <artifactId>marklogic-xcc</artifactId>
+    <version>9.0.4</version>
+</dependency>
+<dependency>
+    <groupId>org.jdom</groupId>
+    <artifactId>jdom2</artifactId>
+    <version>2.0.5</version>
+</dependency>
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>1.7.22</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.slf4j/jcl-over-slf4j -->
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>jcl-over-slf4j</artifactId>
+    <version>1.7.22</version>
+</dependency>
+<dependency>
+    <groupId>ch.qos.logback</groupId>
+    <artifactId>logback-classic</artifactId>
+    <version>1.1.8</version>
+    <scope>test</scope>
+</dependency>
+<!-- https://mvnrepository.com/artifact/xmlunit/xmlunit -->
+<dependency>
+    <groupId>xmlunit</groupId>
+    <artifactId>xmlunit</artifactId>
+    <version>1.6</version>
+    <scope>test</scope>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.3.5</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-web</artifactId>
+    <version>4.3.5.RELEASE</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/jaxen/jaxen -->
+<dependency>
+    <groupId>jaxen</groupId>
+    <artifactId>jaxen</artifactId>
+    <version>1.1.6</version>
+</dependency>
+
+<dependency>
+    <groupId>com.marklogic</groupId>
+    <artifactId>mlcp</artifactId>
+    <version>9.0.4</version>
+</dependency>
+
+    <dependency>
+        <groupId>jdk.tools</groupId>
+        <artifactId>jdk.tools</artifactId>
+        <version>1.8</version>
+        <scope>system</scope>
+        <systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
+    </dependency>
+    
+    <dependency>
+  <groupId>com.marklogic</groupId>
+  <artifactId>ml-app-deployer</artifactId>
+  <version>3.6.1</version>
+  <type>jar</type>
+</dependency>
+<dependency>
+  <groupId>com.marklogic</groupId>
+  <artifactId>ml-javaclient-util</artifactId>
+  <version>3.6.0</version>
+  <type>jar</type>
+</dependency>
+<dependency>
+  <groupId>com.marklogic</groupId>
+  <artifactId>ml-junit</artifactId>
+  <version>3.1.0</version>
+  <type>jar</type>
+</dependency>
+<dependency> 
+<groupId>org.reflections</groupId> 
+<artifactId>reflections</artifactId>
+ <version>0.9.9-RC1</version> 
+ </dependency>
+</dependencies>
+</project>
+
