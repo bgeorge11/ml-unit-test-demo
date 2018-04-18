@@ -2,7 +2,6 @@
 
 This project demostrates the usage of MarkLogic Management and CRUD APIs and integrate with Junit. 
 
-
 # Usage
 
 1. Import the project as MAVEN project. All dependencies are in pom,xml. 
@@ -22,5 +21,10 @@ This project demostrates the usage of MarkLogic Management and CRUD APIs and int
 <i>Note:</i> This is one way of linking test cases to databases. The test case java file can have their own mechanism to work against a database that was created in StepA. 
 3. To execute the testing as part of StepB, include new test file in <i>StepBRunner.java </i> in method <i>testAllDataOperations</i>
 <i>Note:</i> The package uses surefire plugin and is configured to run all test classes parallely. So, it is assumed that the test cases are independent. 
+ 
+ 
+# Other information 
+1. The package is verified with JDK 1.8 
+2. There is one demo test case (<i>DataOperationsTest0</i>) for MarkLogic Content Pump (mlcp). mlcp being a command line tool, please ensure that it is available in PATH. If there is no mlcp, do not execute that test. To skip the test place <i>@Ignore</i> annotation at the class level. 
 
 
