@@ -1,0 +1,17 @@
+<maintenance-entry>
+  <date>2008-02-09</date>
+  <equipment>
+  <name>exhahust fan</name>
+   <sem:triples xmlns:sem="http://marklogic.com/semantics" 
+		xmlns:soda_hall="http://buildsys.org/ontologies/building_example#">
+     <sem:triple>
+       <sem:subject>soda_hall:exhaust_fan_E12</sem:subject>
+       <sem:predicate>maintenance_done_by</sem:predicate>
+       <sem:object>Knuckles_Nelson</sem:object>
+     </sem:triple>
+   </sem:triples>
+  </equipment>
+  <service>install</service>
+  <notes>no problems on installation.</notes>
+  <technician>K. Nelson</technician>
+</maintenance-entry>
