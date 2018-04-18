@@ -14,14 +14,14 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
 public class TestSuiteA {
-	
-	private Date startTime ;
-	private Date endTime ;
+
+	private Date startTime;
+	private Date endTime;
 
 	@Before
 	public void setUpDatabase() {
 		Class[] cls = { StepARunner.class };
-		
+
 		startTime = new Date();
 
 		// Parallel among methods
@@ -67,7 +67,7 @@ public class TestSuiteA {
 	@After
 	public void tearDownDatabase() {
 		Class[] cls = { StepCRunner.class };
-		
+
 		// Parallel among methods
 		Result results = JUnitCore.runClasses(ParallelComputer.classes(), cls);
 
@@ -84,9 +84,9 @@ public class TestSuiteA {
 
 		assertEquals(0, results.getFailureCount());
 		endTime = new Date();
-		
-		System.out.println("TOTAL TIME OF EXECUTION = " + 
-		                   (endTime.getTime() - startTime.getTime())/1000 + " seconds..");
+
+		System.out.println(
+				"TOTAL TIME OF EXECUTION = " + (endTime.getTime() - startTime.getTime()) / 1000 + " seconds..");
 
 	}
 }

@@ -118,9 +118,8 @@ public class GeneralUtils {
 			br.close();
 		}
 	}
-	
-	public void logComments(String log, String level)
-	{
+
+	public void logComments(String log, String level) {
 		if (level.equals("DEBUG")) {
 			System.out.println(log);
 		}

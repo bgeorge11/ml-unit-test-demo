@@ -24,7 +24,7 @@ import com.marklogic.client.query.QueryManager;
 import com.marklogic.client.query.StringQueryDefinition;
 
 @Configuration
-@PropertySource(value = { "classpath:DocumentLoadWithoutDatabase.properties",
+@PropertySource(value = { "classpath:DataOperations.properties",
 		"classpath:user.properties" }, ignoreResourceNotFound = true)
 public class DataOperationsTest1 extends AbstractApiTest {
 
@@ -193,7 +193,8 @@ public class DataOperationsTest1 extends AbstractApiTest {
 		Date end = new Date();
 		genTestUtils.logComments(end.toString() + " Ended Test Case: " + className, LOGLEVEL);
 		genTestUtils.logComments(
-				"Execution time for " + className + " is " + (end.getTime() - start.getTime()) / 1000 + " seconds.", LOGLEVEL);
+				"Execution time for " + className + " is " + (end.getTime() - start.getTime()) / 1000 + " seconds.",
+				LOGLEVEL);
 	}
 
 	@Test
@@ -227,7 +228,8 @@ public class DataOperationsTest1 extends AbstractApiTest {
 		Date end = new Date();
 		genTestUtils.logComments(end.toString() + " Ended Test Case: " + className, LOGLEVEL);
 		genTestUtils.logComments(
-				"Execution time for " + className + " is " + (end.getTime() - start.getTime()) / 1000 + " seconds.", LOGLEVEL);
+				"Execution time for " + className + " is " + (end.getTime() - start.getTime()) / 1000 + " seconds.",
+				LOGLEVEL);
 	}
 
 }

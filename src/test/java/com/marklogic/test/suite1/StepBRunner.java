@@ -26,15 +26,17 @@ public class StepBRunner {
 
 		Result results = JUnitCore.runClasses(ParallelComputer.classes(), cls);
 
-//		System.out.println("-------------DATA OPERATIONS TEST RESULTS---------------");
-//		System.out.println("Total RunCount = " + results.getRunCount());
-//		System.out.println("Failure Count = " + results.getFailureCount());
-//		System.out.println("Run Time = " + results.getRunTime() / 1000 + " seconds");
+		// System.out.println("-------------DATA OPERATIONS TEST
+		// RESULTS---------------");
+		// System.out.println("Total RunCount = " + results.getRunCount());
+		// System.out.println("Failure Count = " + results.getFailureCount());
+		// System.out.println("Run Time = " + results.getRunTime() / 1000 + "
+		// seconds");
 		List<Failure> failure = results.getFailures();
 
 		for (int i = 0; i < failure.size(); i++) {
-			System.out
-					.println("Data Operations Failure details " + failure.get(i).getTestHeader() + " " + failure.get(i).getException());
+			System.out.println("Data Operations Failure details " + failure.get(i).getTestHeader() + " "
+					+ failure.get(i).getException());
 		}
 
 		assertEquals(0, results.getFailureCount());

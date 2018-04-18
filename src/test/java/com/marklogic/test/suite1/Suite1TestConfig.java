@@ -16,8 +16,7 @@ import com.marklogic.mgmt.admin.AdminConfig;
  */
 @Configuration
 @PropertySource(value = { "classpath:user.properties", "classpath:suite1.properties",
-		"classpath:contentpump.properties",
-		"classpath:DocumentLoadWithoutDatabase.properties" }, ignoreResourceNotFound = true)
+		"classpath:contentpump.properties", "classpath:DataOperations.properties" }, ignoreResourceNotFound = true)
 public class Suite1TestConfig {
 
 	@Value("${mlHost:localhost}")

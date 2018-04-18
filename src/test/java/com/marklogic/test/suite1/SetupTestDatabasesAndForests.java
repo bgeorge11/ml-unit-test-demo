@@ -13,7 +13,6 @@ import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.eval.ServerEvaluationCall;
 import com.marklogic.mgmt.api.database.Database;
 import com.marklogic.mgmt.api.forest.Forest;
-import com.marklogic.test.suite1.GeneralUtils;
 
 @Configuration
 @PropertySource(value = { "classpath:databaseXQuery.properties",
@@ -71,7 +70,7 @@ public class SetupTestDatabasesAndForests extends AbstractApiTest {
 		GeneralUtils testUtils = new GeneralUtils();
 		DatabaseClient client = DatabaseClientFactory.newClient(ML_HOST, 8000, "Documents",
 				new DatabaseClientFactory.DigestAuthContext(ML_USER, ML_PASSWORD));
-		
+
 		testUtils.logComments(new Date().toString() + " Starting Creating Forests..." + numDatabases, LOGLEVEL);
 
 		ServerEvaluationCall theCall = client.newServerEval();
@@ -130,7 +129,7 @@ public class SetupTestDatabasesAndForests extends AbstractApiTest {
 	}
 
 	public int countDatabases(String DB_NAME_PREFIX, int NUM_DATABASES) {
-		
+
 		GeneralUtils testUtils = new GeneralUtils();
 		DatabaseClient client = DatabaseClientFactory.newClient(ML_HOST, 8000, "Documents",
 				new DatabaseClientFactory.DigestAuthContext(ML_USER, ML_PASSWORD));
@@ -181,7 +180,8 @@ public class SetupTestDatabasesAndForests extends AbstractApiTest {
 		Date end = new Date();
 		testUtils.logComments(end.toString() + " Created Forests " + methodName, LOGLEVEL);
 		testUtils.logComments(
-				"Execution time for " + methodName + " is " + (end.getTime() - start.getTime()) / 1000 + " seconds.", LOGLEVEL);
+				"Execution time for " + methodName + " is " + (end.getTime() - start.getTime()) / 1000 + " seconds.",
+				LOGLEVEL);
 	}
 
 	@Test
@@ -215,7 +215,8 @@ public class SetupTestDatabasesAndForests extends AbstractApiTest {
 		Date end = new Date();
 		testUtils.logComments(end.toString() + " Created Databases " + methodName, LOGLEVEL);
 		testUtils.logComments(
-				"Execution time for " + methodName + " is " + (end.getTime() - start.getTime()) / 1000 + " seconds.", LOGLEVEL);
+				"Execution time for " + methodName + " is " + (end.getTime() - start.getTime()) / 1000 + " seconds.",
+				LOGLEVEL);
 	}
 
 }

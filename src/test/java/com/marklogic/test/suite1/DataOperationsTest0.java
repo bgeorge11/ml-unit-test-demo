@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.LineNumberReader;
 
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +18,7 @@ import com.marklogic.client.query.QueryManager;
 import com.marklogic.client.query.StringQueryDefinition;
 import com.marklogic.contentpump.ContentPump;
 import com.marklogic.contentpump.utilities.OptionsFileUtil;
+
 @Configuration
 @PropertySource(value = { "classpath:contentpump.properties",
 		"classpath:user.properties" }, ignoreResourceNotFound = true)
@@ -83,6 +83,7 @@ public class DataOperationsTest0 extends AbstractApiTest {
 		return resultsHandle.getTotalResults();
 
 	}
+
 	@Test
 	public void testImportDelimitedText() throws Exception {
 
@@ -134,7 +135,8 @@ public class DataOperationsTest0 extends AbstractApiTest {
 		}
 
 		assertEquals((linesFromSourceFile - 1), docsLoaded);
-		// genTestUtils.logComments("Deleting " + docsLoaded + " Documents", LOGLEVEL );
+		// genTestUtils.logComments("Deleting " + docsLoaded + " Documents",
+		// LOGLEVEL );
 		// docsLoaded = deleteDocuments(client,COLLECTION_NAME);
 		// assertEquals(0,0);
 	}

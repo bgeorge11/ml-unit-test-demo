@@ -17,7 +17,6 @@ import org.springframework.context.annotation.PropertySource;
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.eval.ServerEvaluationCall;
-import com.marklogic.test.suite1.GeneralUtils;
 
 @Configuration
 @PropertySource(value = { "classpath:databaseXQuery.properties",
@@ -71,7 +70,7 @@ public class StepARunner extends AbstractApiTest {
 
 	@Before
 	public void SetUpTestDatabasesAndForests() throws NumberFormatException, IOException {
-		
+
 		Class[] cls = { SetupTestDatabasesAndForests.class };
 		GeneralUtils testUtils = new GeneralUtils();
 		Date startTime = new Date();
@@ -85,8 +84,8 @@ public class StepARunner extends AbstractApiTest {
 		List<Failure> failure = results.getFailures();
 
 		for (int i = 0; i < failure.size(); i++) {
-			System.out
-					.println("Setup Database Failure details " + failure.get(i).getTestHeader() + " " + failure.get(i).getException());
+			System.out.println("Setup Database Failure details " + failure.get(i).getTestHeader() + " "
+					+ failure.get(i).getException());
 		}
 
 		assertEquals(0, results.getFailureCount());
@@ -95,7 +94,7 @@ public class StepARunner extends AbstractApiTest {
 
 	@Test
 	public void attachTestForestsAndDatabases() throws NumberFormatException, IOException {
-		
+
 		String methodName = new StepARunner() {
 		}.getClass().getEnclosingMethod().getName();
 		String className = this.getClass().getName();
@@ -122,7 +121,8 @@ public class StepARunner extends AbstractApiTest {
 		Date end = new Date();
 		testUtils.logComments(end.toString() + " Attached Forests " + methodName, LOGLEVEL);
 		testUtils.logComments(
-				"Execution time for " + methodName + " is " + (end.getTime() - start.getTime()) / 1000 + " seconds.", LOGLEVEL);
+				"Execution time for " + methodName + " is " + (end.getTime() - start.getTime()) / 1000 + " seconds.",
+				LOGLEVEL);
 	}
 
 }
