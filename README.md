@@ -11,8 +11,8 @@ This project demostrates the usage of MarkLogic Management and CRUD APIs and int
  4. Run the project as a Junit test project  <br>
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i> >mvn -Dtest=TestSuiteA test </i>
       TestSuiteA runs the below  <br>
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StepARunner --> Creates the databases and forests. Also attaches the forests to databases <br>
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StepBRunner --> Executes the CRUD Operations test in parallel  <br>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StepARunner --> Creates the databases and forests. Also attaches the forests to databases. The number and name of databases are controlled by suite1.properties <br>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StepBRunner --> Executes the CRUD Operations test in parallel. The path to the files to upload are in DataOperations.properties <br>
      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StepCRunner --> Deletes the databases and forests created.  <br>
      All the tests can be independently run as well. 
 # How to add new testcases 
