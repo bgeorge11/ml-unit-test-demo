@@ -29,5 +29,5 @@ This project demostrates the usage of MarkLogic Management and CRUD APIs and int
 
 # TestSuiteB vs TestSuiteA 
 TestSuiteB does not delete the databases created. The documents loaded will remain in the databases and can be verified if required. Make sure that databases and later manually deleted or execute test <i>StepCRunner</i> to tear down the databases. Commands to run TestSuiteB <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; >mvn -Dtest=TestSuiteB test
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>mvn -Dtest=TestSuiteB test </i>
 
