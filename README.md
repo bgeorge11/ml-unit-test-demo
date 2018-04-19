@@ -33,5 +33,6 @@ TestSuiteB does not delete the databases created. The documents loaded will rema
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>mvn -Dtest=TestSuiteB test </i>
 
 # TestSuiteC
-TestSuiteC can be used for repeating the data operations (StepB) as many times mentioned in <i>@Repeat</i> annotation. The databases are created once and deleted once after all the tests. 
+TestSuiteC can be used for repeating the data operations (StepB) as many times mentioned in <i>@Repeat</i> annotation. The databases are created once and deleted once after all the tests. Commands to run TestSuiteC <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>mvn -Dtest=TestSuiteC test </i>
 
