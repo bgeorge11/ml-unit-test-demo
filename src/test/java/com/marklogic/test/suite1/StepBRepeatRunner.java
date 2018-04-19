@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.ParallelComputer;
 import org.junit.runner.JUnitCore;
@@ -12,8 +13,12 @@ import org.junit.runner.RunWith;
 import org.junit.runner.notification.Failure;
 import org.junit.runners.Parameterized;
 
-public class StepBRunner {
-
+public class StepBRepeatRunner {
+	
+	@Rule
+	public RepeatRule repeatRule = new RepeatRule();
+	
+	@Repeat(100)
 	@Test
 	public void testAllDataOperations() {
 		Class[] cls = { DataOperationsTest0.class, 

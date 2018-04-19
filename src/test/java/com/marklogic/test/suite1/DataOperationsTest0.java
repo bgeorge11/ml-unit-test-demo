@@ -100,7 +100,8 @@ public class DataOperationsTest0 extends AbstractApiTest {
 		assertNotEquals("ERROR", DB_NAME);
 
 		String cmd = "IMPORT -host " + ML_HOST + " -username " + ML_USER + " -password " + ML_PASSWORD
-				+ " -input_file_path " + DOC_PATH + " -uri_id id -generate_uri false"
+				+ " -input_file_path " + DOC_PATH + " -uri_id id -generate_uri false -output_uri_prefix " 
+				+ COLLECTION_NAME + " -output_uri_suffix " + ".xml"
 				+ " -input_file_type delimited_text" + " -output_collections " + COLLECTION_NAME + " -port " + 8000
 				+ " -database " + DB_NAME;
 

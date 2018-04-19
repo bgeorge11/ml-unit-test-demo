@@ -114,7 +114,7 @@ public class DataOperationsTest2 extends AbstractApiTest {
 			// add a collection tag
 			metadata.getCollections().addAll(COLLECTION_NAME);
 			// write the document content
-			docMgr.write("/" + fileName, metadata, handle);
+			docMgr.write("/" + COLLECTION_NAME + "_" + fileName, metadata, handle);
 			TOTAL_XML_DOCS_ADDED++;
 
 		}

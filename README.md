@@ -19,7 +19,7 @@ This project demostrates the usage of MarkLogic Management and CRUD APIs and int
 1. Refer one of the existing test case 
 2. Create a new test case file with the file name indicating the database to be used and matching one of the patterns in <i>testClassPatterns</i> property in <i>suite1.properties</i>. For example, if <i>testClassPatterns</i> has <i>LoadTest</i>, a test case file name can be <i>JSONDocumentLoadTest12.java</i>. This will ensure that the testing is done against database created with index number 12. 
 <i>Note:</i> This is one way of linking test cases to databases. The test case java file can have their own mechanism to work against a database that was created in StepA. 
-3. To execute the testing as part of StepB, include new test file in <i>StepBRunner.java </i> in method <i>testAllDataOperations</i><br>
+3. To execute the testing as part of StepB, include new test file in <i>StepBRunner.java</i> and <i>StepBRepeatRunner.java </i> in method <i>testAllDataOperations</i><br>
 <i>Note:</i> The package uses surefire plugin and is configured to run all test classes parallely. So, it is assumed that the test cases are independent. 
  
  
@@ -28,7 +28,10 @@ This project demostrates the usage of MarkLogic Management and CRUD APIs and int
 2. There is one demo test case (<i>DataOperationsTest0</i>) for MarkLogic Content Pump (mlcp). mlcp being a command line tool, please ensure that it is available in PATH. If there is no mlcp, do not execute that test. To skip the test place <i>@Ignore</i> annotation at the class level. 
 3. If the number of databases need to be only the number of test classes, use the property value <i>numTestCases=0</i> in <i>suite1.properties</i> file. Then the number of databases created will be determined by the number of test classes with class names matching the patterns in <i>testClassPatterns</i>
 
-# TestSuiteB vs TestSuiteA 
+# TestSuiteB
 TestSuiteB does not delete the databases created. The documents loaded will remain in the databases and can be verified if required. Make sure that databases and later manually deleted or execute test <i>StepCRunner</i> to tear down the databases. Commands to run TestSuiteB <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>mvn -Dtest=TestSuiteB test </i>
+
+# TestSuiteC
+TestSuiteC can be used for repeating the data operations (StepB) as many times mentioned in <i>@Repeat</i> annotation. The databases are created once and deleted once after all the tests. 
 
