@@ -2,6 +2,7 @@ package com.marklogic.test.suite1;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Iterator;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
+import com.marklogic.client.eval.EvalResultIterator;
 import com.marklogic.client.eval.ServerEvaluationCall;
 import com.marklogic.mgmt.api.database.Database;
 import com.marklogic.mgmt.api.forest.Forest;
@@ -86,13 +88,14 @@ public class SetupTestDatabasesAndForests extends AbstractApiTest {
 		 * TODO The below is the right way of executing a xqy, will need to make
 		 * it working
 		 */
-		// theCall.modulePath("src/test/resources/lib/copyForests.xqy");
-		// theCall.addVariable("MAX", numDatabases);
-		// theCall.addVariable("templateForestName", templateForestName);
-		// theCall.addVariable("name_prefix", FOREST1_NAME_PREFIX);
-		//
-		// EvalResultIterator result = theCall.eval();
-		//
+//		 theCall.modulePath("src/test/resources/lib/copyForests.xqy");
+//		 theCall.addVariable("maxCount", numDatabases);
+//		 theCall.addVariable("templateForestName", templateForestName);
+//		 theCall.addVariable("forestPrefix", FOREST1_NAME_PREFIX);
+//		
+//		 EvalResultIterator result = theCall.eval();
+		 
+		
 		testUtils.logComments(new Date().toString() + " Competed Creating Forests...", LOGLEVEL);
 
 		client.release();
