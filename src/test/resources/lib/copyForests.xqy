@@ -12,4 +12,3 @@ return local:CopyForests($new-config, ($counter + 1))
 ) else $config
 };
 admin:save-configuration(local:CopyForests(admin:get-configuration(), 1))
-
