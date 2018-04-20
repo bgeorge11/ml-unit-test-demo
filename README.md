@@ -28,11 +28,16 @@ This project demostrates the usage of MarkLogic Management and CRUD APIs and int
 2. There is one demo test case (<i>DataOperationsTest0</i>) for MarkLogic Content Pump (mlcp). mlcp being a command line tool, please ensure that it is available in PATH. If there is no mlcp, do not execute that test. To skip the test place <i>@Ignore</i> annotation at the class level. 
 3. If the number of databases need to be only the number of test classes, use the property value <i>numTestCases=0</i> in <i>suite1.properties</i> file. Then the number of databases created will be determined by the number of test classes with class names matching the patterns in <i>testClassPatterns</i>
 
+# TestSuiteA
+TestSuiteA creates databases and forests, performs the data operations tests and tears down all the databases and forests. TestSuiteA can be repeated without any other steps in between because if the tests are completed all the objects created are deleted. Command to run TestSuiteA  <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>mvn -Dtest=TestSuiteA test </i>
+
 # TestSuiteB
-TestSuiteB does not delete the databases created. The documents loaded will remain in the databases and can be verified if required. Make sure that databases and later manually deleted or execute test <i>StepCRunner</i> to tear down the databases. Commands to run TestSuiteB <br>
+TestSuiteB does not delete the databases created. Otherwise, it is same as TestSuiteA. The documents loaded will remain in the databases and can be verified if required. Make sure that databases and later manually deleted or execute test <i>StepCRunner</i> to tear down the databases. Commands to run TestSuiteB <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>mvn -Dtest=TestSuiteB test </i>
 
 # TestSuiteC
 TestSuiteC can be used for repeating the data operations (StepB) as many times mentioned in <i>@Repeat</i> annotation. The databases are created once and deleted once after all the tests. Commands to run TestSuiteC <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>mvn -Dtest=TestSuiteC test </i>
+StepBRepeatRunner is provided separately to configure classes which needs to be tested repeatedly (as for doing a performance benchmark)
 

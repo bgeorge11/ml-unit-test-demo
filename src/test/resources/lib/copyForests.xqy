@@ -1,8 +1,8 @@
 import module namespace admin = "http://marklogic.com/xdmp/admin"
 at "/MarkLogic/admin.xqy";
-declare variable $maxCount := 2;
-declare variable $templateForestName := "ml9-unit-test-demo-forest1-0";
-declare variable $forestPrefix := "ml9-unit-test-demo-forest1-";
+declare variable $maxCount as xs:int external;
+declare variable $templateForestName as xs:string external;
+declare variable $forestPrefix as xs:string external;
 
 declare function local:CopyForests($config, $counter as xs:int) {
 if($counter le $maxCount) then (
