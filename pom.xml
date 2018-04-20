@@ -144,15 +144,15 @@
     <groupId>com.marklogic</groupId>
     <artifactId>mlcp</artifactId>
     <version>9.0.4</version>
+            <exclusions>
+                <exclusion>
+                <groupId>jdk.tools</groupId>
+                <artifactId>jdk.tools</artifactId>
+            </exclusion>
+        </exclusions>
 </dependency>
 
-    <dependency>
-        <groupId>jdk.tools</groupId>
-        <artifactId>jdk.tools</artifactId>
-        <version>1.8</version>
-        <scope>system</scope>
-        <systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
-    </dependency>
+
     
     <dependency>
   <groupId>com.marklogic</groupId>
@@ -177,6 +177,16 @@
 <artifactId>reflections</artifactId>
  <version>0.9.9-RC1</version> 
  </dependency>
+ <dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-csv</artifactId>
+    <version>1.5</version>
+</dependency>
 </dependencies>
+    <repositories>
+        <repository>
+            <id>jcenter</id>
+            <url>https://jcenter.bintray.com/</url>
+        </repository>
+    </repositories>
 </project>
-
