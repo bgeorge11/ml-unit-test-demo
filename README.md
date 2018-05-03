@@ -41,3 +41,13 @@ TestSuiteC can be used for repeating the data operations (StepB) as many times m
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>mvn -Dtest=TestSuiteC test </i>
 StepBRepeatRunner is provided separately to configure classes which needs to be tested repeatedly (as for doing a performance benchmark)
 
+# List of TestCases 
+1. DataOperationsTest0.java --> Loading CSV file using Marklogic Content Pump (mlcp)
+2. DataOperationsTest1.java --> Loading json files using Java APIs
+3. DataOperationsTest2.java --> Loading xml files using Java APIs
+4. BinaryLoadTest1.java --> Loading binary files (images) using Java APIs
+5. POJOWriteTest4.java --> Loading Java Objects using JAXB
+6. SpringDataOperationsTest3.java --> Loading data with Spring Data Extension for MarkLogic 
+7. SemanticsDataOperationsTest2.java --> Load and read Graph data (TTL format files are loaded). Executes SPARQL query on triples. 
+
+
