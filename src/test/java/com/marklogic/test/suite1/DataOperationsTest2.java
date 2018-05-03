@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 
-
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,8 +24,7 @@ import com.marklogic.client.query.StringQueryDefinition;
 
 @Configuration
 @PropertySource(value = { "classpath:DataOperations.properties",
-		                  "classpath:user.properties" }, 
-                           ignoreResourceNotFound = true)
+		"classpath:user.properties" }, ignoreResourceNotFound = true)
 public class DataOperationsTest2 extends AbstractApiTest {
 
 	@Value("${mlHost}")
@@ -56,11 +54,10 @@ public class DataOperationsTest2 extends AbstractApiTest {
 	public void teardown() {
 	}
 
-	
 	public void loadXMLDocuments(DatabaseClient client, String COLLECTION_NAME) throws Exception {
 
 		File fl = new File(XML_DOC_PATH);
-		
+
 		GeneralUtils genUtils = new GeneralUtils();
 		ArrayList<File> lstFiles = genUtils.listFilesForFolder(fl, false, ".*\\.xml");
 		String fileName = "";

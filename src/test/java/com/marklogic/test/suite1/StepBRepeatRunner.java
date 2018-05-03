@@ -18,21 +18,17 @@ import com.marklogic.test.suite1.semantics.SemanticsDataOperationsTest2;
 import com.marklogic.test.suite1.springdata.SpringDataOperationsTest3;
 
 public class StepBRepeatRunner {
-	
+
 	@Rule
 	public RepeatRule repeatRule = new RepeatRule();
-	
+
 	@Repeat(100)
 	@Test
 	public void testAllDataOperations() {
-		Class[] cls = { DataOperationsTest0.class, 
-		        DataOperationsTest1.class, 
-		        DataOperationsTest2.class,
-		        BinaryLoadTest1.class,
-		        POJOWriteTest4.class,
-		        SpringDataOperationsTest3.class,
-		        SemanticsDataOperationsTest2.class};
-		
+		Class[] cls = { DataOperationsTest0.class, DataOperationsTest1.class, DataOperationsTest2.class,
+				BinaryLoadTest1.class, POJOWriteTest4.class, SpringDataOperationsTest3.class,
+				SemanticsDataOperationsTest2.class };
+
 		Result results = JUnitCore.runClasses(ParallelComputer.methods(), cls);
 
 		// System.out.println("-------------DATA OPERATIONS TEST

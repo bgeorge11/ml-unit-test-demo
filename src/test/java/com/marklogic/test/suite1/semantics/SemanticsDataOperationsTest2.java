@@ -23,9 +23,8 @@ import com.marklogic.test.suite1.GeneralUtils;
 import com.marklogic.test.suite1.springdata.SpringDataOperationsTest3;
 
 @Configuration
-@PropertySource(value = { "classpath:suite1.properties",
-		"classpath:user.properties" }, ignoreResourceNotFound = true)
-public class SemanticsDataOperationsTest2 extends AbstractApiTest{
+@PropertySource(value = { "classpath:suite1.properties", "classpath:user.properties" }, ignoreResourceNotFound = true)
+public class SemanticsDataOperationsTest2 extends AbstractApiTest {
 	@Value("${mlHost}")
 	private String ML_HOST;
 	@Value("${mlUser}")
@@ -38,27 +37,27 @@ public class SemanticsDataOperationsTest2 extends AbstractApiTest{
 	private String NAME_PREFIX;
 	@Value("${logLevel}")
 	private String LOGLEVEL;
-	
+
 	private String COLLECTION_NAME = "";
 	String DB_NAME = "";
-	
-	public StringHandle testReadGraph(GraphManager gmgr, String graphURI, String mimeType ){
-		
-		return(gmgr.read(graphURI, new StringHandle().withMimetype(mimeType)));
+
+	public StringHandle testReadGraph(GraphManager gmgr, String graphURI, String mimeType) {
+
+		return (gmgr.read(graphURI, new StringHandle().withMimetype(mimeType)));
 	}
-	
+
 	@Test
 	public void doTriplesInsert() {
-		
+
 		String methodName = new SemanticsDataOperationsTest2() {
 		}.getClass().getEnclosingMethod().getName();
 		String className = this.getClass().getName();
 		File fl = new File(SEMANTICS_PATH);
 		GeneralUtils genTestUtils = new GeneralUtils();
-		
+
 		Date start = new Date();
 		genTestUtils.logComments(start.toString() + " Started Test Case: " + className, LOGLEVEL);
-		
+
 		// Find DB Name
 		DB_NAME = genTestUtils.getDBName(className, NAME_PREFIX);
 		assertNotEquals("ERROR", DB_NAME);
@@ -66,42 +65,36 @@ public class SemanticsDataOperationsTest2 extends AbstractApiTest{
 		DatabaseClient client = DatabaseClientFactory.newClient(ML_HOST, 8000, DB_NAME,
 				new DatabaseClientFactory.DigestAuthContext(ML_USER, ML_PASSWORD));
 		ArrayList<File> lstFiles = GeneralUtils.listFilesForFolder(fl, false, ".*\\.ttl");
-		
+
 		GraphManager gmgr = client.newGraphManager();
 		gmgr.setDefaultMimetype(RDFMimeTypes.TURTLE);
 		for (int i = 0; i < lstFiles.size(); i++) {
-			FileHandle tripleHandle = 
-					  new FileHandle(lstFiles.get(i));
+			FileHandle tripleHandle = new FileHandle(lstFiles.get(i));
 			gmgr.write(COLLECTION_NAME, tripleHandle);
 		}
-		
 
-		StringHandle triples = testReadGraph(gmgr, COLLECTION_NAME,RDFMimeTypes.TURTLE);
+		StringHandle triples = testReadGraph(gmgr, COLLECTION_NAME, RDFMimeTypes.TURTLE);
 		assertNotNull(triples);
-        
+
 		SPARQLQueryManager sqmgr = client.newSPARQLQueryManager();
-		SPARQLQueryDefinition query = sqmgr.newQueryDefinition(
-										"PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" + 		
-										"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>" +
-										"PREFIX owl:  <http://www.w3.org/2002/07/owl#>" +
-										"PREFIX br:   <http://buildsys.org/ontologies/BrickTag#>" + 
-										"select ?subject " + 
-										" WHERE { " +
-										"?subject  rdfs:subClassOf   br:MeasurementProperty_Modifier" +
-						  				"}"
-									);
+		SPARQLQueryDefinition query = sqmgr
+				.newQueryDefinition("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+						+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+						+ "PREFIX owl:  <http://www.w3.org/2002/07/owl#>"
+						+ "PREFIX br:   <http://buildsys.org/ontologies/BrickTag#>" + "select ?subject " + " WHERE { "
+						+ "?subject  rdfs:subClassOf   br:MeasurementProperty_Modifier" + "}");
 		JsonNode results = sqmgr.executeSelect(query, new JacksonHandle()).get();
 		JsonNode matches = results.path("results").path("bindings");
 		assertEquals(165, matches.size()); // 165 is the hard coded result.
-        for (int i = 0; i < matches.size(); i++) {
-            String subject = 
-                matches.get(i).path("subject").path("value").asText(); 
-            //Demo just to get all the subjects. no assertion done with this. 
-        }
+		for (int i = 0; i < matches.size(); i++) {
+			String subject = matches.get(i).path("subject").path("value").asText();
+			// Demo just to get all the subjects. no assertion done with this.
+		}
 		client.release();
 		Date end = new Date();
 		genTestUtils.logComments(end.toString() + " Ended Test Case: " + className, LOGLEVEL);
 		genTestUtils.logComments(
 				"Execution time for " + className + " is " + (end.getTime() - start.getTime()) / 1000 + " seconds.",
 				LOGLEVEL);
-}}
+	}
+}

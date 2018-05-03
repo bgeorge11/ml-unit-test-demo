@@ -44,7 +44,6 @@ public class SetupTestDatabasesAndForests extends AbstractApiTest {
 	private String createTemplateForest(String FOREST_NAME_PREFIX) {
 		String templateForestName = "";
 
-		
 		DatabaseClient client = DatabaseClientFactory.newClient(ML_HOST, 8000, "Documents",
 				new DatabaseClientFactory.DigestAuthContext(ML_USER, ML_PASSWORD));
 		templateForestName = FOREST_NAME_PREFIX + "0";
@@ -90,7 +89,7 @@ public class SetupTestDatabasesAndForests extends AbstractApiTest {
 				+ ") else $config" + "};" + "admin:save-configuration(local:forest(admin:get-configuration(), 1))";
 		theCall.xquery(query);
 		String response = theCall.evalAs(String.class);
-	
+
 		testUtils.logComments(new Date().toString() + " Competed Creating Forests...", LOGLEVEL);
 
 		client.release();
@@ -135,19 +134,17 @@ public class SetupTestDatabasesAndForests extends AbstractApiTest {
 		ServerEvaluationCall theCall = client.newServerEval();
 		int numDatabases = 0;
 
-		String query = "xquery version \"1.0-ml\";" +
-				       "for $db-name in xdmp:database-name(xdmp:databases()) " 
-                       + "where fn:starts-with($db-name, \""+ DB_NAME_PREFIX + "\")"
-                       + "return $db-name";
-				
+		String query = "xquery version \"1.0-ml\";" + "for $db-name in xdmp:database-name(xdmp:databases()) "
+				+ "where fn:starts-with($db-name, \"" + DB_NAME_PREFIX + "\")" + "return $db-name";
+
 		theCall.xquery(query);
 		EvalResultIterator response = theCall.eval();
-		
+
 		while (response.hasNext()) {
-			response.next(); //Just pass, no need to do anything now !
+			response.next(); // Just pass, no need to do anything now !
 			numDatabases++;
 		}
-		
+
 		client.release();
 
 		return numDatabases;
@@ -178,8 +175,9 @@ public class SetupTestDatabasesAndForests extends AbstractApiTest {
 					createTemplateForest(FOREST1_NAME_PREFIX));
 		}
 
-		// If the test reached here, then assertTrue. TODO - Count the forests again
-		//  and then assert true.
+		// If the test reached here, then assertTrue. TODO - Count the forests
+		// again
+		// and then assert true.
 		assertTrue(true);
 		Date end = new Date();
 		testUtils.logComments(end.toString() + " Created Forests " + methodName, LOGLEVEL);
@@ -214,7 +212,7 @@ public class SetupTestDatabasesAndForests extends AbstractApiTest {
 
 		}
 		// Count the databases back and then assert true
-		assertEquals(countDatabases(DB_NAME_PREFIX),numDatabaseToCreate) ;
+		assertEquals(countDatabases(DB_NAME_PREFIX), numDatabaseToCreate);
 		Date end = new Date();
 		testUtils.logComments(end.toString() + " Created Databases " + methodName, LOGLEVEL);
 		testUtils.logComments(

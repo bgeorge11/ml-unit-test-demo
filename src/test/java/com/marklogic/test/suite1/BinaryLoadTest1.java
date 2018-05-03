@@ -27,8 +27,7 @@ import com.marklogic.client.query.StringQueryDefinition;
 
 @Configuration
 @PropertySource(value = { "classpath:DataOperations.properties",
-		                  "classpath:user.properties" }, 
-                           ignoreResourceNotFound = true)
+		"classpath:user.properties" }, ignoreResourceNotFound = true)
 public class BinaryLoadTest1 extends AbstractApiTest {
 
 	@Value("${mlHost}")
@@ -110,14 +109,16 @@ public class BinaryLoadTest1 extends AbstractApiTest {
 
 			// create a manager for Binary documents
 			BinaryDocumentManager docMgr = client.newBinaryDocumentManager();
-			
+
 			// enable automatic metadata extraction into properties
-			/* TODO Commented below as Marklogic converters should be installed for meta data extraction
-			 * Effective marklogic 9, the converter is not available by default
-			 *  
-			 */ 
-			//docMgr.setMetadataExtraction(MetadataExtraction.PROPERTIES);
-			
+			/*
+			 * TODO Commented below as Marklogic converters should be installed
+			 * for meta data extraction Effective marklogic 9, the converter is
+			 * not available by default
+			 * 
+			 */
+			// docMgr.setMetadataExtraction(MetadataExtraction.PROPERTIES);
+
 			// create a handle on the document's content
 			InputStreamHandle handle = new InputStreamHandle(docStream);
 
@@ -193,7 +194,8 @@ public class BinaryLoadTest1 extends AbstractApiTest {
 		loadBinaryDocuments(client, COLLECTION_NAME);
 		long countOfBinaryDocs = countJSONDocuments(client, COLLECTION_NAME);
 		assertEquals(TOTAL_BINARY_DOCS_ADDED.longValue(), countOfBinaryDocs);
-		genTestUtils.logComments(new Date().toString() + " Loaded " + TOTAL_BINARY_DOCS_ADDED + " documents.", LOGLEVEL);
+		genTestUtils.logComments(new Date().toString() + " Loaded " + TOTAL_BINARY_DOCS_ADDED + " documents.",
+				LOGLEVEL);
 
 		// countOfBinaryDocs = deleteDocuments(client, COLLECTION_NAME);
 		// assertEquals(0, countOfBinaryDocs);

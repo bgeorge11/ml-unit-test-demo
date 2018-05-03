@@ -44,7 +44,7 @@ public class TestSuiteC {
 		assertEquals(0, results.getFailureCount());
 
 	}
-	
+
 	@Test
 	public void testDatabaseOperations() {
 		Class[] cls = { StepBRepeatRunner.class };

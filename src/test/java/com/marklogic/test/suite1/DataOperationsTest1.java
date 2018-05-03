@@ -25,8 +25,7 @@ import com.marklogic.client.query.StringQueryDefinition;
 
 @Configuration
 @PropertySource(value = { "classpath:DataOperations.properties",
-		                  "classpath:user.properties" }, 
-                           ignoreResourceNotFound = true)
+		"classpath:user.properties" }, ignoreResourceNotFound = true)
 public class DataOperationsTest1 extends AbstractApiTest {
 
 	@Value("${mlHost}")
@@ -57,12 +56,10 @@ public class DataOperationsTest1 extends AbstractApiTest {
 
 	}
 
-	
-
 	public void loadJSONDocuments(DatabaseClient client, String COLLECTION_NAME) throws Exception {
 
 		File fl = new File(JSON_DOC_PATH);
-		
+
 		GeneralUtils genUtils = new GeneralUtils();
 
 		ArrayList<File> lstFiles = genUtils.listFilesForFolder(fl, false, ".*\\.json");
@@ -85,7 +82,7 @@ public class DataOperationsTest1 extends AbstractApiTest {
 			TOTAL_JSON_DOCS_ADDED++;
 
 		}
-		
+
 	}
 
 	public long countJSONDocuments(DatabaseClient client, String COLLECTION_NAME) {

@@ -123,7 +123,7 @@ public class GeneralUtils {
 			System.out.println(log);
 		}
 	}
-	
+
 	public static ArrayList<File> listFilesForFolder(final File folder, final boolean recursivity,
 			final String patternFileFilter) {
 

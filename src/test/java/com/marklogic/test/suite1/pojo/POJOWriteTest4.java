@@ -31,8 +31,8 @@ import com.marklogic.test.suite1.pojo.Employee;
 @Configuration
 @PropertySource(value = { "classpath:contentpump.properties",
 		"classpath:user.properties" }, ignoreResourceNotFound = true)
-public class POJOWriteTest4  extends AbstractApiTest {
-	
+public class POJOWriteTest4 extends AbstractApiTest {
+
 	@Value("${mlHost}")
 	private String ML_HOST;
 	@Value("${mlUser}")
@@ -48,23 +48,23 @@ public class POJOWriteTest4  extends AbstractApiTest {
 
 	private String COLLECTION_NAME = "";
 	String DB_NAME = "";
-	
+
 	@Test
 	public void doPOJOWriteTest() throws JAXBException, FileNotFoundException {
-		
+
 		String methodName = new POJOWriteTest4() {
 		}.getClass().getEnclosingMethod().getName();
 		String className = this.getClass().getName();
 		File fl = new File(POJO_PATH);
 		GeneralUtils genTestUtils = new GeneralUtils();
-		
+
 		Date start = new Date();
 		genTestUtils.logComments(start.toString() + " Started Test Case: " + className, LOGLEVEL);
-		
+
 		// Find DB Name
 		DB_NAME = genTestUtils.getDBName(className, NAME_PREFIX);
 		assertNotEquals("ERROR", DB_NAME);
-		
+
 		COLLECTION_NAME = java.util.UUID.randomUUID().toString();
 		// create the client
 		DatabaseClient client = DatabaseClientFactory.newClient(ML_HOST, 8000, DB_NAME,
@@ -83,17 +83,17 @@ public class POJOWriteTest4  extends AbstractApiTest {
 		for (int i = 0; i < lstFiles.size(); i++) {
 			InputStream docStream = new FileInputStream(lstFiles.get(i));
 			// an identifier for the POJO in the database
-			String docId = "/"+ COLLECTION_NAME + "_" + lstFiles.get(i).getName();
+			String docId = "/" + COLLECTION_NAME + "_" + lstFiles.get(i).getName();
 			// deserialize the POJO
 			Employee employee = (Employee) u.unmarshal(docStream);
 			// provide a handle for the POJO
 			writeHandle.set(employee);
-		
+
 			// write the POJO to the database
 			docMgr.write(docId, writeHandle);
 		}
 
-//		Marshaller m = context.createMarshaller(context);
+		// Marshaller m = context.createMarshaller(context);
 		// release the client
 		client.release();
 		Date end = new Date();
