@@ -37,7 +37,7 @@ public class TestSuiteB {
 
 	@Test
 	public void testDatabaseOperations() {
-		Class[] cls = { DataOperationsTest0.class, DataOperationsTest1.class, DataOperationsTest2.class };
+		Class[] cls = { StepBRunner.class};
 
 		// Parallel among methods
 		Result results = JUnitCore.runClasses(ParallelComputer.classes(), cls);

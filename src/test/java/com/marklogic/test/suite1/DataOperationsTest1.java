@@ -57,49 +57,15 @@ public class DataOperationsTest1 extends AbstractApiTest {
 
 	}
 
-	public static ArrayList<File> listFilesForFolder(final File folder, final boolean recursivity,
-			final String patternFileFilter) {
-
-		// Inputs
-		boolean filteredFile = false;
-
-		// Ouput
-		final ArrayList<File> output = new ArrayList<File>();
-
-		// Foreach elements
-		for (final File fileEntry : folder.listFiles()) {
-
-			// If this element is a directory, do it recursivly
-			if (fileEntry.isDirectory()) {
-				if (recursivity) {
-					output.addAll(listFilesForFolder(fileEntry, recursivity, patternFileFilter));
-				}
-			} else {
-				// If there is no pattern, the file is correct
-				if (patternFileFilter.length() == 0) {
-					filteredFile = true;
-				}
-				// Otherwise we need to filter by pattern
-				else {
-					filteredFile = Pattern.matches(patternFileFilter, fileEntry.getName());
-				}
-
-				// If the file has a name which match with the pattern, then add
-				// it to the list
-				if (filteredFile) {
-					output.add(fileEntry);
-				}
-			}
-		}
-
-		return output;
-	}
+	
 
 	public void loadJSONDocuments(DatabaseClient client, String COLLECTION_NAME) throws Exception {
 
 		File fl = new File(JSON_DOC_PATH);
+		
+		GeneralUtils genUtils = new GeneralUtils();
 
-		ArrayList<File> lstFiles = listFilesForFolder(fl, false, ".*\\.json");
+		ArrayList<File> lstFiles = genUtils.listFilesForFolder(fl, false, ".*\\.json");
 		String fileName = "";
 
 		for (int i = 0; i < lstFiles.size(); i++) {
@@ -119,6 +85,7 @@ public class DataOperationsTest1 extends AbstractApiTest {
 			TOTAL_JSON_DOCS_ADDED++;
 
 		}
+		
 	}
 
 	public long countJSONDocuments(DatabaseClient client, String COLLECTION_NAME) {

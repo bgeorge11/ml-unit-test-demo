@@ -12,6 +12,10 @@ import org.junit.runner.RunWith;
 import org.junit.runner.notification.Failure;
 import org.junit.runners.Parameterized;
 
+import com.marklogic.test.suite1.pojo.POJOWriteTest4;
+import com.marklogic.test.suite1.semantics.SemanticsDataOperationsTest2;
+import com.marklogic.test.suite1.springdata.SpringDataOperationsTest3;
+
 public class StepBRunner {
 
 	@Test
@@ -19,7 +23,10 @@ public class StepBRunner {
 		Class[] cls = { DataOperationsTest0.class, 
 				        DataOperationsTest1.class, 
 				        DataOperationsTest2.class,
-				        BinaryLoadTest1.class};
+				        BinaryLoadTest1.class,
+				        POJOWriteTest4.class,
+				        SpringDataOperationsTest3.class,
+				        SemanticsDataOperationsTest2.class};
 
 		Result results = JUnitCore.runClasses(ParallelComputer.methods(), cls);
 

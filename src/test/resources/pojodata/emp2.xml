@@ -1,0 +1,23 @@
+<employee>
+	<employeeId>456</employeeId>
+	<fName>John</fName>
+	<lName>Kennedy</lName>
+	<Addresses>
+		<Address>
+			<addrType>R</addrType>
+			<addrLine1>678 BirchWood</addrLine1>
+			<addrLine2></addrLine2>
+			<city>Chicago</city>
+			<state>IL</state>
+			<postalCode>60094</postalCode>
+		</Address>
+		<Address>
+			<addrType>M</addrType>
+			<addrLine1>987 W. Monroe</addrLine1>
+			<addrLine2></addrLine2>
+			<city>Chicago</city>
+			<state>IL</state>
+			<postalCode>60066</postalCode>
+		</Address>
+	</Addresses>
+</employee>

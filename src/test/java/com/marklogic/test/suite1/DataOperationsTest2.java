@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.regex.Pattern;
+
 
 import org.junit.After;
 import org.junit.Test;
@@ -56,49 +56,13 @@ public class DataOperationsTest2 extends AbstractApiTest {
 	public void teardown() {
 	}
 
-	public static ArrayList<File> listFilesForFolder(final File folder, final boolean recursivity,
-			final String patternFileFilter) {
-
-		// Inputs
-		boolean filteredFile = false;
-
-		// Ouput
-		final ArrayList<File> output = new ArrayList<File>();
-
-		// Foreach elements
-		for (final File fileEntry : folder.listFiles()) {
-
-			// If this element is a directory, do it recursivly
-			if (fileEntry.isDirectory()) {
-				if (recursivity) {
-					output.addAll(listFilesForFolder(fileEntry, recursivity, patternFileFilter));
-				}
-			} else {
-				// If there is no pattern, the file is correct
-				if (patternFileFilter.length() == 0) {
-					filteredFile = true;
-				}
-				// Otherwise we need to filter by pattern
-				else {
-					filteredFile = Pattern.matches(patternFileFilter, fileEntry.getName());
-				}
-
-				// If the file has a name which match with the pattern, then add
-				// it to the list
-				if (filteredFile) {
-					output.add(fileEntry);
-				}
-			}
-		}
-
-		return output;
-	}
-
+	
 	public void loadXMLDocuments(DatabaseClient client, String COLLECTION_NAME) throws Exception {
 
 		File fl = new File(XML_DOC_PATH);
-
-		ArrayList<File> lstFiles = listFilesForFolder(fl, false, ".*\\.xml");
+		
+		GeneralUtils genUtils = new GeneralUtils();
+		ArrayList<File> lstFiles = genUtils.listFilesForFolder(fl, false, ".*\\.xml");
 		String fileName = "";
 
 		for (int i = 0; i < lstFiles.size(); i++) {
