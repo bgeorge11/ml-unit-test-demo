@@ -1,0 +1,15 @@
+<employee>
+	<employeeId>987</employeeId>
+	<fName>Killer</fName>
+	<lName>Ryan</lName>
+	<Addresses>
+		<Address>
+			<addrType>R</addrType>
+			<addrLine1>123 Main St.</addrLine1>
+			<addrLine2></addrLine2>
+			<city>Chicago</city>
+			<state>IL</state>
+			<postalCode>60564</postalCode>
+		</Address>
+	</Addresses>
+</employee>

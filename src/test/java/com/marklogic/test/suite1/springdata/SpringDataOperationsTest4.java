@@ -22,7 +22,7 @@ import java.util.List;
 @Configuration
 @PropertySource(value = { "classpath:suite1.properties", "classpath:user.properties" }, ignoreResourceNotFound = true)
 
-public class SpringDataOperationsTest3 extends AbstractApiTest {
+public class SpringDataOperationsTest4 extends AbstractApiTest {
 
 	@Value("${mlHost}")
 	private String ML_HOST;
@@ -43,7 +43,7 @@ public class SpringDataOperationsTest3 extends AbstractApiTest {
 	@Test
 	public void doSpringDataTest() {
 
-		String methodName = new SpringDataOperationsTest3() {
+		String methodName = new SpringDataOperationsTest4() {
 		}.getClass().getEnclosingMethod().getName();
 		String className = this.getClass().getName();
 		GeneralUtils genTestUtils = new GeneralUtils();

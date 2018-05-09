@@ -52,17 +52,17 @@ public class StepARunner extends AbstractApiTest {
 		ServerEvaluationCall theCall = client.newServerEval();
 		String query = "xquery version \"1.0-ml\";"
 				+ "import module namespace admin = \"http://marklogic.com/xdmp/admin\""
-				+ "at \"/MarkLogic/admin.xqy\";declare variable $MAX :=" + (numDatabases - 1) + ";"
+				+ "at \"/MarkLogic/admin.xqy\";declare variable $MAX :=" + (numDatabases) + ";"
 				+ "declare function local:attachForests($config, $counter as xs:int) {" + "if($counter le $MAX) then ("
 				+ "let $new-config := admin:database-attach-forest($config, xdmp:database(\"" + DB_NAME_PREFIX
 				+ "\"||$counter), xdmp:forest(\"" + FOREST1_NAME_PREFIX + "\"||$counter))"
 				+ "return local:attachForests($new-config, ($counter + 1))" + ") else $config" + "};"
-				+ "admin:save-configuration(local:attachForests(admin:get-configuration(), 0))";
+				+ "admin:save-configuration(local:attachForests(admin:get-configuration(), 1))";
 
 		theCall.xquery(query);
 		String response = theCall.evalAs(String.class);
 
-		testUtils.logComments(new Date().toString() + " Competed Creating Forests...", LOGLEVEL);
+		testUtils.logComments(new Date().toString() + " Competed Attaching Forests...", LOGLEVEL);
 
 		client.release();
 

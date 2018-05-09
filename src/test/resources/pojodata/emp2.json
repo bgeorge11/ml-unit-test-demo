@@ -1,0 +1,25 @@
+{
+  "employee": {
+    "employeeId": "456",
+    "fName": "John",
+    "lName": "Kennedy",
+    "Addresses": {
+      "Address": [
+        {
+          "addrType": "R",
+          "addrLine1": "678 BirchWood",
+          "city": "Chicago",
+          "state": "IL",
+          "postalCode": "60094"
+        },
+        {
+          "addrType": "M",
+          "addrLine1": "987 W. Monroe",
+          "city": "Chicago",
+          "state": "IL",
+          "postalCode": "60066"
+        }
+      ]
+    }
+  }
+}

@@ -42,12 +42,16 @@ TestSuiteC can be used for repeating the data operations (StepB) as many times m
 StepBRepeatRunner is provided separately to configure classes which needs to be tested repeatedly (as for doing a performance benchmark)
 
 # List of TestCases 
-1. DataOperationsTest0.java --> Loading CSV file using Marklogic Content Pump (mlcp)
-2. DataOperationsTest1.java --> Loading json files using Java APIs
-3. DataOperationsTest2.java --> Loading xml files using Java APIs
-4. BinaryLoadTest1.java --> Loading binary files (images) using Java APIs
-5. POJOWriteTest4.java --> Loading Java Objects using JAXB
-6. SpringDataOperationsTest3.java --> Loading data with Spring Data Extension for MarkLogic 
-7. SemanticsDataOperationsTest2.java --> Load and read Graph data (TTL format files are loaded). Executes SPARQL query on triples. 
+1. DataOperationsTest1.java <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;testImportDelimitedTextWithTransformation --> Loads a CSV as JSON with transformation and uses mlcp. The transformation modules are installed as part of the test and deleted at the end of test. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;testImportDelimitedText --> Loads the same CSV as XML without transformation and uses mlcp
+2. DataOperationsTest2.java --> Loading json files using Java APIs
+3. DataOperationsTest3.java --> Loading xml files using Java APIs
+4. BinaryLoadTest2.java --> Loading binary files (images) using Java APIs
+5. POJOWriteTest5.java <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doJacksonOperationsTest --> Loading json documents as POJO writes using Jackson
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doJAXBOperationsTest --> Loading xml documents as POJO writes using Jackson
+6. SpringDataOperationsTest4.java --> Loading data with Spring Data Extension for MarkLogic 
+7. SemanticsDataOperationsTest3.java --> Load and read Graph data (TTL format files are loaded). Executes SPARQL query on triples. 
 
 

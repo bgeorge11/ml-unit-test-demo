@@ -42,6 +42,9 @@ public class GeneralUtils {
 
 	public int countTestCases(String patterns, String packageName) {
 		int countOfCases = 0;
+		int maxDbIndex = 0;
+		int currentDbIndex = 0;
+		int j=0;
 		String[] strPatterns = patterns.split("\\s*,\\s*");
 		String className = "";
 		Reflections reflections = new Reflections(new ConfigurationBuilder()
@@ -49,10 +52,14 @@ public class GeneralUtils {
 		Set<Method> methods = reflections.getMethodsAnnotatedWith(Test.class);
 		Iterator<Method> it = methods.iterator();
 		while (it.hasNext()) {
-			className = it.next().getDeclaringClass().getName();
+			className = it.next().getDeclaringClass().getSimpleName();
 			for (int i = 0; i <= strPatterns.length - 1; i++) {
 				if (className.contains(strPatterns[i])) {
 					countOfCases++;
+					currentDbIndex = Integer.parseInt(className.replaceAll("[^0-9]", ""));
+					if (currentDbIndex > maxDbIndex) {
+						maxDbIndex = currentDbIndex;
+					}
 				}
 			}
 			/*
@@ -61,7 +68,7 @@ public class GeneralUtils {
 			 */
 		}
 
-		return countOfCases;
+		return maxDbIndex;
 
 	}
 

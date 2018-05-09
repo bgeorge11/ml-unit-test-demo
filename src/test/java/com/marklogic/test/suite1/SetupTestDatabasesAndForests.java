@@ -46,7 +46,7 @@ public class SetupTestDatabasesAndForests extends AbstractApiTest {
 
 		DatabaseClient client = DatabaseClientFactory.newClient(ML_HOST, 8000, "Documents",
 				new DatabaseClientFactory.DigestAuthContext(ML_USER, ML_PASSWORD));
-		templateForestName = FOREST_NAME_PREFIX + "0";
+		templateForestName = FOREST_NAME_PREFIX + "1";
 		Forest forest = api.forest(templateForestName);
 		assertFalse(forest.exists());
 		forest.save();
@@ -61,7 +61,7 @@ public class SetupTestDatabasesAndForests extends AbstractApiTest {
 
 		DatabaseClient client = DatabaseClientFactory.newClient(ML_HOST, 8000, "Documents",
 				new DatabaseClientFactory.DigestAuthContext(ML_USER, ML_PASSWORD));
-		templateDatabaseName = DB_NAME_PREFIX + "0";
+		templateDatabaseName = DB_NAME_PREFIX + "1";
 		Database db = api.db(templateDatabaseName);
 		assertFalse(db.exists());
 		db.save();
@@ -86,7 +86,7 @@ public class SetupTestDatabasesAndForests extends AbstractApiTest {
 				+ "declare function local:forest($config, $counter as xs:int) {" + "if($counter le $MAX) then ("
 				+ "let $new-config := admin:forest-copy($config, xdmp:forest(\"" + templateForestName + "\"), \""
 				+ FOREST1_NAME_PREFIX + "\" || $counter, ())" + "return local:forest($new-config, ($counter + 1))"
-				+ ") else $config" + "};" + "admin:save-configuration(local:forest(admin:get-configuration(), 1))";
+				+ ") else $config" + "};" + "admin:save-configuration(local:forest(admin:get-configuration(), 2))";
 		theCall.xquery(query);
 		String response = theCall.evalAs(String.class);
 
@@ -112,7 +112,7 @@ public class SetupTestDatabasesAndForests extends AbstractApiTest {
 				+ "let $new-config := admin:database-copy($config, xdmp:database(\"" + templateDatabaseName + "\"), \""
 				+ DB_NAME_PREFIX + "\" || $counter)" + "return local:copyDatabases($new-config, ($counter + 1))"
 				+ ") else $config" + "};"
-				+ "admin:save-configuration(local:copyDatabases(admin:get-configuration(), 1))";
+				+ "admin:save-configuration(local:copyDatabases(admin:get-configuration(), 2))";
 		theCall.xquery(query);
 		/*
 		 * TODO the above is not the right way of calling external module.
@@ -171,7 +171,7 @@ public class SetupTestDatabasesAndForests extends AbstractApiTest {
 			createForests(FOREST1_NAME_PREFIX, Integer.parseInt(NUM_DATABASES) - 1,
 					createTemplateForest(FOREST1_NAME_PREFIX));
 		} else {
-			createForests(FOREST1_NAME_PREFIX, testUtils.countTestCases(TEST_CLASS_PATTERNS, packageName) - 1,
+			createForests(FOREST1_NAME_PREFIX, testUtils.countTestCases(TEST_CLASS_PATTERNS, packageName),
 					createTemplateForest(FOREST1_NAME_PREFIX));
 		}
 
@@ -208,7 +208,7 @@ public class SetupTestDatabasesAndForests extends AbstractApiTest {
 					createTemplateDatabase(DB_NAME_PREFIX));
 		} else {
 			numDatabaseToCreate = testUtils.countTestCases(TEST_CLASS_PATTERNS, packageName);
-			createDatabases(DB_NAME_PREFIX, numDatabaseToCreate - 1, createTemplateDatabase(DB_NAME_PREFIX));
+			createDatabases(DB_NAME_PREFIX, numDatabaseToCreate, createTemplateDatabase(DB_NAME_PREFIX));
 
 		}
 		// Count the databases back and then assert true

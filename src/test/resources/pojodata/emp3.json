@@ -1,0 +1,16 @@
+{
+  "employee": {
+    "employeeId": "987",
+    "fName": "Killer",
+    "lName": "Ryan",
+    "Addresses": {
+      "Address": {
+        "addrType": "R",
+        "addrLine1": "123 Main St.",
+        "city": "Chicago",
+        "state": "IL",
+        "postalCode": "60564"
+      }
+    }
+  }
+}
