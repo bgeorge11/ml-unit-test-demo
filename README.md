@@ -53,5 +53,7 @@ StepBRepeatRunner is provided separately to configure classes which needs to be 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doJAXBOperationsTest --> Loading xml documents as POJO writes using Jackson
 6. SpringDataOperationsTest4.java --> Loading data with Spring Data Extension for MarkLogic 
 7. SemanticsDataOperationsTest3.java --> Load and read Graph data (TTL format files are loaded). Executes SPARQL query on triples. 
+8. SemanticsDataOperationsTest4.java 
+		doGraphDataOperations --> Create a graph of triples, ontology, query with inferencing using RDFS and OWL HORST, OWL HORST FULL rulesets. Also demonstrates OWL sameAs relationship. 
 
 

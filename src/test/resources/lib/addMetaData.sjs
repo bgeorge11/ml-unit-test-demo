@@ -21,7 +21,7 @@ function addMetaData(content, context)
     		if (arrOutputCollections.includes(arrCollections[i])) {
     			content.uri = currentURI + "_" + i;
     		}
-     xdmp.documentDelete(currentURI);
+     xdmp.documentDelete(currentURI); // delete the old document 
     			
     }
 	

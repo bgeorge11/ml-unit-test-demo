@@ -193,7 +193,7 @@ public class DataOperationsTest1 extends AbstractApiTest {
 		+ "-document_type json "
 		+ "-output_collections " + COLLECTION_NAME + " -port " + 8000 + " -database " + DB_NAME
 		+ " -transform_module /marklogic.rest.transform/mainTransform/assets/transform.sjs"
-		+ " -transform_param " + ML_USER;
+		+ " -transform_param" + ML_USER;
 
 		genTestUtils.logComments("Executing MLCP Command is :: " + cmd, LOGLEVEL);
 

@@ -14,15 +14,21 @@ import org.junit.runners.Parameterized;
 
 import com.marklogic.test.suite1.pojo.POJOOperationsTest5;
 import com.marklogic.test.suite1.semantics.SemanticsDataOperationsTest3;
+import com.marklogic.test.suite1.semantics.SemanticsDataOperationsTest4;
 import com.marklogic.test.suite1.springdata.SpringDataOperationsTest4;
 
 public class StepBRunner {
 
 	@Test
 	public void testAllDataOperations() {
-		Class[] cls = { DataOperationsTest1.class, DataOperationsTest2.class, DataOperationsTest3.class,
-				BinaryLoadTest2.class, POJOOperationsTest5.class, SpringDataOperationsTest4.class,
-				SemanticsDataOperationsTest3.class };
+		Class[] cls = { DataOperationsTest1.class, 
+						DataOperationsTest2.class, 
+						DataOperationsTest3.class,
+						BinaryLoadTest2.class, 
+						POJOOperationsTest5.class, 
+						SpringDataOperationsTest4.class,
+						SemanticsDataOperationsTest3.class,
+						SemanticsDataOperationsTest4.class};
 
 		Result results = JUnitCore.runClasses(ParallelComputer.methods(), cls);
 
