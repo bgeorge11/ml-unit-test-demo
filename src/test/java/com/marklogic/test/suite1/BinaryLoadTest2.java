@@ -16,8 +16,6 @@ import org.springframework.context.annotation.PropertySource;
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.document.BinaryDocumentManager;
-import com.marklogic.client.document.JSONDocumentManager;
-import com.marklogic.client.document.BinaryDocumentManager.MetadataExtraction;
 import com.marklogic.client.io.DocumentMetadataHandle;
 import com.marklogic.client.io.InputStreamHandle;
 import com.marklogic.client.io.SearchHandle;

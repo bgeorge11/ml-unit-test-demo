@@ -191,9 +191,12 @@
 			<artifactId>jackson-core</artifactId>
 			<version>2.9.4</version>
 		</dependency>
+		<dependency>
+  			<groupId>com.fasterxml.jackson.dataformat</groupId>
+  			<artifactId>jackson-dataformat-csv</artifactId>
+  			<version>2.9.0</version>
+		</dependency>
 	</dependencies>
-	<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
-
 	<repositories>
 		<repository>
 			<id>jcenter</id>

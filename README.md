@@ -49,11 +49,14 @@ StepBRepeatRunner is provided separately to configure classes which needs to be 
 3. DataOperationsTest3.java --> Loading xml files using Java APIs
 4. BinaryLoadTest2.java --> Loading binary files (images) using Java APIs
 5. POJOWriteTest5.java <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doJacksonOperationsTest --> Loading json documents as POJO writes using Jackson
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doJacksonOperationsTest --> Loading json documents as POJO writes using Jackson <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doJAXBOperationsTest --> Loading xml documents as POJO writes using Jackson
 6. SpringDataOperationsTest4.java --> Loading data with Spring Data Extension for MarkLogic 
 7. SemanticsDataOperationsTest3.java --> Load and read Graph data (TTL format files are loaded). Executes SPARQL query on triples. 
 8. SemanticsDataOperationsTest4.java 
-		doGraphDataOperations --> Create a graph of triples, ontology, query with inferencing using RDFS and OWL HORST, OWL HORST FULL rulesets. Also demonstrates OWL sameAs relationship. 
+		doGraphDataOperations --> Create a graph of triples, ontology, query with inferencing using RDFS and OWL HORST, OWL HORST FULL rulesets. Also demonstrates OWL sameAs relationship.  
+9. DataMovementSDKOperationsTest4.java -->  Loads JSON documents using data movement SDK (DMSDK)
+10. DataMovementSDKOperationsTest6.java --> Loads a CSV document, convert to JSON document (one row is one document) and loads to Marklogic using Data movement SDK (DMSDK)
+         		
 
 

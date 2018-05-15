@@ -8,9 +8,7 @@ import org.junit.Test;
 import org.junit.experimental.ParallelComputer;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
-import org.junit.runner.RunWith;
 import org.junit.runner.notification.Failure;
-import org.junit.runners.Parameterized;
 
 import com.marklogic.test.suite1.pojo.POJOOperationsTest5;
 import com.marklogic.test.suite1.semantics.SemanticsDataOperationsTest3;
@@ -25,6 +23,7 @@ public class StepBRunner {
 						DataOperationsTest2.class, 
 						DataOperationsTest3.class,
 						BinaryLoadTest2.class, 
+						DataMovementSDKOperationsTest4.class,
 						POJOOperationsTest5.class, 
 						SpringDataOperationsTest4.class,
 						SemanticsDataOperationsTest3.class,

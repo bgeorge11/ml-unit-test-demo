@@ -193,7 +193,7 @@ public class DataOperationsTest1 extends AbstractApiTest {
 		+ "-document_type json "
 		+ "-output_collections " + COLLECTION_NAME + " -port " + 8000 + " -database " + DB_NAME
 		+ " -transform_module /marklogic.rest.transform/mainTransform/assets/transform.sjs"
-		+ " -transform_param" + ML_USER;
+		+ " -transform_param " + ML_USER;
 
 		genTestUtils.logComments("Executing MLCP Command is :: " + cmd, LOGLEVEL);
 
@@ -229,7 +229,7 @@ public class DataOperationsTest1 extends AbstractApiTest {
 		transform.deleteTransform("addMetaData");
 		textHandle = transform.readJavascriptTransform("addMetaData", new StringHandle());	
 		assertNotNull(textHandle);
-		/*Delete Transforms - START */
+		/*Delete Transforms - END */
 		Date end = new Date();
 		genTestUtils.logComments(end.toString() + " Ended Test Case: " + methodName, LOGLEVEL);
 		genTestUtils.logComments(

@@ -2,7 +2,6 @@ package com.marklogic.test.suite1;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.Iterator;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.PropertySource;
 
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
-import com.marklogic.client.eval.EvalResult;
 import com.marklogic.client.eval.EvalResultIterator;
 import com.marklogic.client.eval.ServerEvaluationCall;
 import com.marklogic.mgmt.api.database.Database;

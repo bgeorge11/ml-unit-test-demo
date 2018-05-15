@@ -138,6 +138,7 @@ public class SemanticsDataOperationsTest4 extends AbstractApiTest {
 		assertEquals(0, matches.size()); // Ruleset not set, hence no inference
 											// results expected.
 
+		
 		query.setRulesets(SPARQLRuleset.RDFS);
 		Date inferenceStart = new Date();
 		results = sqmgr.executeSelect(query, new JacksonHandle()).get();
@@ -150,6 +151,7 @@ public class SemanticsDataOperationsTest4 extends AbstractApiTest {
 		assertEquals(5, matches.size()); // 5 is the expected result with
 											// ruleset.
 
+		
 		/*
 		 * Try another out-of-box rule set OWL HORST
 		 */
@@ -164,6 +166,28 @@ public class SemanticsDataOperationsTest4 extends AbstractApiTest {
 		matches = results.path("results").path("bindings");
 		assertEquals(5, matches.size()); // 5 is the hard coded result
 
+		inferenceStart = new Date();
+		query.setRulesets(SPARQLRuleset.SUBCLASS_OF);
+		results = sqmgr.executeSelect(query, new JacksonHandle()).get();
+		inferenceEnd = new Date();
+		genTestUtils.logComments(
+				"Execution time for SUB CLASS OF inferencing is  " + 
+						(inferenceEnd.getTime() - inferenceStart.getTime()) + " milli seconds.",
+				LOGLEVEL);
+		matches = results.path("results").path("bindings");
+		assertEquals(5, matches.size()); // 5 is the hard coded result
+		
+		inferenceStart = new Date();
+		query.setRulesets(SPARQLRuleset.RDFS_PLUS_FULL);
+		results = sqmgr.executeSelect(query, new JacksonHandle()).get();
+		inferenceEnd = new Date();
+		genTestUtils.logComments(
+				"Execution time for RDFS_PLUS_FULL inferencing is  " + 
+						(inferenceEnd.getTime() - inferenceStart.getTime()) + " milli seconds.",
+				LOGLEVEL);
+		matches = results.path("results").path("bindings");
+		assertEquals(5, matches.size()); // 5 is the hard coded result
+		
 		/*
 		 * Now, the difference made with owl specific ontology. 
 		 * Composer has a sameAs relationship with Writer. 
