@@ -57,6 +57,6 @@ StepBRepeatRunner is provided separately to configure classes which needs to be 
 		doGraphDataOperations --> Create a graph of triples, ontology, query with inferencing using RDFS and OWL HORST, OWL HORST FULL rulesets. Also demonstrates OWL sameAs relationship.  
 9. DataMovementSDKOperationsTest4.java -->  Loads JSON documents using data movement SDK (DMSDK)
 10. DataMovementSDKOperationsTest6.java --> Loads a CSV document, convert to JSON document (one row is one document) and loads to Marklogic using Data movement SDK (DMSDK)
-         		
+11. DataOperationsTest5.java --> Load JSON files and patch with a POJO (uses insertFragment, PatchBuilder)
 
 

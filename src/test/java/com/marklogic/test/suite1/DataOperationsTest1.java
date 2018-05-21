@@ -91,7 +91,7 @@ public class DataOperationsTest1 extends AbstractApiTest {
 
 	}
 
-	@Test
+//	@Test
 	public void testImportDelimitedText() throws Exception {
 
 		String methodName = new DataOperationsTest1() {
@@ -173,12 +173,12 @@ public class DataOperationsTest1 extends AbstractApiTest {
 		/*Install Transforms - START */
 		ServerConfigurationManager config = client.newServerConfigManager();
 		TransformExtensionsManager transform = config.newTransformExtensionsManager();
-		InputStream docStream = new FileInputStream(new File ("src/test/resources/lib/addMetaData.sjs"));
+		InputStream docStream = new FileInputStream(new File ("src/test/resources/lib/envelope.sjs"));
 		InputStreamHandle handle = new InputStreamHandle(docStream);
-		transform.writeJavascriptTransform("addMetaData", handle);
-		docStream = new FileInputStream(new File ("src/test/resources/lib/mainTransform.sjs"));
+		transform.writeJavascriptTransform("envelope", handle);
+		docStream = new FileInputStream(new File ("src/test/resources/lib/calendar-data-transform.sjs"));
 		handle = new InputStreamHandle(docStream);
-		transform.writeJavascriptTransform("mainTransform", handle);
+		transform.writeJavascriptTransform("calendar-data-transform", handle);
 		
 		/*List Transforms - START */
 		StringHandle textHandle = transform.readJavascriptTransform("mainTransform", new StringHandle());		
@@ -223,10 +223,10 @@ public class DataOperationsTest1 extends AbstractApiTest {
 		}
 		assertEquals((linesFromSourceFile - 1), docsLoaded);
 		/*Delete Transforms - START */
-		transform.deleteTransform("mainTransform");
+		//transform.deleteTransform("mainTransform");
 		textHandle = transform.readJavascriptTransform("mainTransform", new StringHandle());		
 		assertNotNull(textHandle);
-		transform.deleteTransform("addMetaData");
+		//transform.deleteTransform("addMetaData");
 		textHandle = transform.readJavascriptTransform("addMetaData", new StringHandle());	
 		assertNotNull(textHandle);
 		/*Delete Transforms - END */

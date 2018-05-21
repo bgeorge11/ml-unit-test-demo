@@ -1,16 +1,1 @@
-{
-  "employee": {
-    "employeeId": "123",
-    "fName": "Tom",
-    "lName": "Suiss",
-    "Addresses": {
-      "Address": {
-        "addrType": "R",
-        "addrLine1": "123 Main St.",
-        "city": "Chicago",
-        "state": "IL",
-        "postalCode": "60564"
-      }
-    }
-  }
-}
+{"employee":{"employeeId":"123","fName":"Tom","lName":"Suiss","Addresses":{"Address":{"addrType":"R","addrLine1":"123 Main St.","city":"Chicago","state":"IL","postalCode":"60564"}}}}
