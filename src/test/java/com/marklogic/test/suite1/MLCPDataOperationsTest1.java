@@ -15,21 +15,24 @@ import org.springframework.context.annotation.PropertySource;
 
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
+import com.marklogic.client.admin.QueryOptionsManager;
 import com.marklogic.client.admin.ServerConfigurationManager;
 import com.marklogic.client.admin.TransformExtensionsManager;
 import com.marklogic.client.io.InputStreamHandle;
 import com.marklogic.client.io.SearchHandle;
 import com.marklogic.client.io.StringHandle;
+import com.marklogic.client.io.ValuesHandle;
 import com.marklogic.client.query.DeleteQueryDefinition;
 import com.marklogic.client.query.QueryManager;
 import com.marklogic.client.query.StringQueryDefinition;
+import com.marklogic.client.query.ValuesDefinition;
 import com.marklogic.contentpump.ContentPump;
 import com.marklogic.contentpump.utilities.OptionsFileUtil;
 
 @Configuration
 @PropertySource(value = { "classpath:contentpump.properties",
 		"classpath:user.properties" }, ignoreResourceNotFound = true)
-public class DataOperationsTest1 extends AbstractApiTest {
+public class MLCPDataOperationsTest1 extends AbstractApiTest {
 
 	@Value("${mlHost}")
 	private String ML_HOST;
@@ -52,49 +55,40 @@ public class DataOperationsTest1 extends AbstractApiTest {
 	}
 
 	public long countDocuments(DatabaseClient client, String COLLECTION_NAME) {
+		String optionsName = "myOptions"; 
+		QueryOptionsManager optionsMgr = client.newServerConfigManager().newQueryOptionsManager();
+
+		String opts1 = "<search:options xmlns:search='http://marklogic.com/appservices/search'>"
+						+ "<search:values name=\"uri\">"
+						+ "<search:uri/>"
+						+ "</search:values>"
+						+ "<search:additional-query>"
+						+ "<cts:collection-query xmlns:cts=\"http://marklogic.com/cts\">"
+						+ "<cts:uri>"+ COLLECTION_NAME + "</cts:uri>"
+				        + " </cts:collection-query>"
+				        + "</search:additional-query>"
+						+ "</search:options>";
+
+		StringHandle handle = new StringHandle(opts1);
+		optionsMgr.writeOptions(optionsName, handle);
+		/**** VALUES RETRIEVAL ****/
 		// create a manager for searching
 		QueryManager queryMgr = client.newQueryManager();
 
-		// create a search definition
-		StringQueryDefinition query = queryMgr.newStringDefinition();
-
-		// Restrict the search to the collection
-		query.setCollections(COLLECTION_NAME);
-
-		// create a handle for the search results
-		SearchHandle resultsHandle = new SearchHandle();
-
-		// run the search
-		queryMgr.search(query, resultsHandle);
-		return resultsHandle.getTotalResults();
+		// create a values definition
+		ValuesDefinition valuesDef = queryMgr.newValuesDefinition("uri", optionsName);
+		
+		// retrieve the values
+		ValuesHandle valuesHandle = queryMgr.values(valuesDef, new ValuesHandle());
+		optionsMgr.deleteOptions(optionsName);
+		
+		return valuesHandle.getValues().length;
 	}
 
-	public long deleteDocuments(DatabaseClient client, String COLLECTION_NAME) {
-		// create a manager for searching
-		QueryManager queryMgr = client.newQueryManager();
-
-		DeleteQueryDefinition ddf = queryMgr.newDeleteDefinition();
-		StringQueryDefinition query = queryMgr.newStringDefinition();
-
-		ddf.setCollections(COLLECTION_NAME);
-		queryMgr.delete(ddf);
-
-		query.setCollections(COLLECTION_NAME);
-
-		// create a handle for the search results
-		SearchHandle resultsHandle = new SearchHandle();
-
-		// run the search
-		queryMgr.search(query, resultsHandle);
-
-		return resultsHandle.getTotalResults();
-
-	}
-
-//	@Test
+	@Test
 	public void testImportDelimitedText() throws Exception {
 
-		String methodName = new DataOperationsTest1() {
+		String methodName = new MLCPDataOperationsTest1() {
 		}.getClass().getEnclosingMethod().getName();
 		String className = this.getClass().getName();
 
@@ -154,7 +148,7 @@ public class DataOperationsTest1 extends AbstractApiTest {
 	@Test
 	public void testImportDelimitedTextWithTransformation() throws Exception {
 
-		String methodName = new DataOperationsTest1() {
+		String methodName = new MLCPDataOperationsTest1() {
 		}.getClass().getEnclosingMethod().getName();
 		String className = this.getClass().getName();
 
@@ -173,13 +167,13 @@ public class DataOperationsTest1 extends AbstractApiTest {
 		/*Install Transforms - START */
 		ServerConfigurationManager config = client.newServerConfigManager();
 		TransformExtensionsManager transform = config.newTransformExtensionsManager();
-		InputStream docStream = new FileInputStream(new File ("src/test/resources/lib/envelope.sjs"));
+		InputStream docStream = new FileInputStream(new File ("src/test/resources/lib/addMetaData.sjs"));
 		InputStreamHandle handle = new InputStreamHandle(docStream);
-		transform.writeJavascriptTransform("envelope", handle);
-		docStream = new FileInputStream(new File ("src/test/resources/lib/calendar-data-transform.sjs"));
+		transform.writeJavascriptTransform("addMetaData", handle);
+		docStream = new FileInputStream(new File ("src/test/resources/lib/mainTransform.sjs"));
 		handle = new InputStreamHandle(docStream);
-		transform.writeJavascriptTransform("calendar-data-transform", handle);
-		
+		transform.writeJavascriptTransform("mainTransform", handle);
+				
 		/*List Transforms - START */
 		StringHandle textHandle = transform.readJavascriptTransform("mainTransform", new StringHandle());		
 		assertNotNull(textHandle);
@@ -196,7 +190,7 @@ public class DataOperationsTest1 extends AbstractApiTest {
 		+ " -transform_param " + ML_USER;
 
 		genTestUtils.logComments("Executing MLCP Command is :: " + cmd, LOGLEVEL);
-
+		
 		String[] args = cmd.split(" ");
 
 		String[] expandedArgs = null;
@@ -223,10 +217,10 @@ public class DataOperationsTest1 extends AbstractApiTest {
 		}
 		assertEquals((linesFromSourceFile - 1), docsLoaded);
 		/*Delete Transforms - START */
-		//transform.deleteTransform("mainTransform");
+		transform.deleteTransform("mainTransform");
 		textHandle = transform.readJavascriptTransform("mainTransform", new StringHandle());		
 		assertNotNull(textHandle);
-		//transform.deleteTransform("addMetaData");
+		transform.deleteTransform("addMetaData");
 		textHandle = transform.readJavascriptTransform("addMetaData", new StringHandle());	
 		assertNotNull(textHandle);
 		/*Delete Transforms - END */

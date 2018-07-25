@@ -24,16 +24,19 @@ public class StepBRepeatRunner {
 	@Repeat(100)
 	@Test
 	public void testAllDataOperations() {
-		Class[] cls = { DataOperationsTest1.class, 
-				        DataOperationsTest2.class, 
-				        DataOperationsTest3.class,
-				        BinaryLoadTest2.class, 
-				        DataMovementSDKOperationsTest4.class,
-				        POJOOperationsTest5.class, 
-				        SpringDataOperationsTest4.class,
-				        SemanticsDataOperationsTest3.class,
-				        SemanticsDataOperationsTest4.class};
-
+		Class[] cls = { MLCPDataOperationsTest1.class, 
+				JSONDataOperationsTest2.class, 
+				XMLDataOperationsTest3.class,
+				BinaryLoadTest2.class, 
+				JSONDMSDKOperationsTest4.class,
+				CSVDMSDKOperationsTest5.class,
+				PartialExtractOperationsTest5.class,
+				QueryOptionsOperationsTest5.class,
+				POJOOperationsTest5.class, 
+				SpringDataOperationsTest4.class,
+				SemanticsDataOperationsTest3.class,
+				SemanticsDataOperationsTest4.class};
+		
 		Result results = JUnitCore.runClasses(ParallelComputer.methods(), cls);
 
 		// System.out.println("-------------DATA OPERATIONS TEST

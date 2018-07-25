@@ -32,7 +32,7 @@ import com.marklogic.client.query.StringQueryDefinition;
 @Configuration
 @PropertySource(value = { "classpath:DataOperations.properties",
 		"classpath:user.properties" }, ignoreResourceNotFound = true)
-public class DataMovementSDKOperationsTest5 extends AbstractApiTest {
+public class CSVDMSDKOperationsTest5 extends AbstractApiTest {
 
 	@Value("${mlHost}")
 	private String ML_HOST;
@@ -145,7 +145,8 @@ public class DataMovementSDKOperationsTest5 extends AbstractApiTest {
         					.addColumn("PRESCRIBER_PHARMACY_DISTANCE")
         					.addColumn("DISP_CLASS_CD")
         					.addColumn("type")
-        					.build().withHeader();
+        					.build()
+        					.withHeader();
                
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir.toPath(), "*.csv")) {
             for (Path entry : stream) {
@@ -204,7 +205,7 @@ public class DataMovementSDKOperationsTest5 extends AbstractApiTest {
 	@Test
 	public void testLoadCSV() throws Exception {
 
-		String methodName = new DataMovementSDKOperationsTest5() {
+		String methodName = new CSVDMSDKOperationsTest5() {
 		}.getClass().getEnclosingMethod().getName();
 		String className = this.getClass().getName();
 		String prefix = java.util.UUID.randomUUID().toString();

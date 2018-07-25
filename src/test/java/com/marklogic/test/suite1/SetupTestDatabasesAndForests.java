@@ -62,6 +62,8 @@ public class SetupTestDatabasesAndForests extends AbstractApiTest {
 		templateDatabaseName = DB_NAME_PREFIX + "1";
 		Database db = api.db(templateDatabaseName);
 		assertFalse(db.exists());
+		db.setSchemaDatabase("Schemas");
+		db.setSecurityDatabase("Security");
 		db.save();
 		assertTrue(db.exists());
 		client.release();

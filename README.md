@@ -58,5 +58,7 @@ StepBRepeatRunner is provided separately to configure classes which needs to be 
 9. DataMovementSDKOperationsTest4.java -->  Loads JSON documents using data movement SDK (DMSDK)
 10. DataMovementSDKOperationsTest6.java --> Loads a CSV document, convert to JSON document (one row is one document) and loads to Marklogic using Data movement SDK (DMSDK)
 11. DataOperationsTest5.java --> Load JSON files and patch with a POJO (uses insertFragment, PatchBuilder)
+12. QueryOptionsOperationsTest5.java --> Test with different Query options.
+13. PartialExtractOperationsTest5.java --> Extract portions of a document using query options including installation of query options.
 
 

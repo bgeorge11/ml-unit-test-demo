@@ -3,7 +3,6 @@ const metaDataPlugin = require('/marklogic.rest.transform/addMetaData/assets/tra
 function mainTransform(content, context)
 {
 	var contentWithMetaData = metaDataPlugin.addMetaData(content, context);
-	
 	return contentWithMetaData;
 };
 exports.transform = mainTransform;

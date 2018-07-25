@@ -19,11 +19,14 @@ public class StepBRunner {
 
 	@Test
 	public void testAllDataOperations() {
-		Class[] cls = { DataOperationsTest1.class, 
-						DataOperationsTest2.class, 
-						DataOperationsTest3.class,
+		Class[] cls = { MLCPDataOperationsTest1.class, 
+						JSONDataOperationsTest2.class, 
+						XMLDataOperationsTest3.class,
 						BinaryLoadTest2.class, 
-						DataMovementSDKOperationsTest4.class,
+						JSONDMSDKOperationsTest4.class,
+						CSVDMSDKOperationsTest5.class,
+						PartialExtractOperationsTest5.class,
+						QueryOptionsOperationsTest5.class,
 						POJOOperationsTest5.class, 
 						SpringDataOperationsTest4.class,
 						SemanticsDataOperationsTest3.class,

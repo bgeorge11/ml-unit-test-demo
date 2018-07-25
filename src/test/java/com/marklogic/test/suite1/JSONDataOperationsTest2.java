@@ -25,7 +25,7 @@ import com.marklogic.client.query.StringQueryDefinition;
 @Configuration
 @PropertySource(value = { "classpath:DataOperations.properties",
 		"classpath:user.properties" }, ignoreResourceNotFound = true)
-public class DataOperationsTest2 extends AbstractApiTest {
+public class JSONDataOperationsTest2 extends AbstractApiTest {
 
 	@Value("${mlHost}")
 	private String ML_HOST;
@@ -127,7 +127,7 @@ public class DataOperationsTest2 extends AbstractApiTest {
 	@Test
 	public void testLoadJSONDocuments() throws Exception {
 
-		String methodName = new DataOperationsTest2() {
+		String methodName = new JSONDataOperationsTest2() {
 		}.getClass().getEnclosingMethod().getName();
 		String className = this.getClass().getName();
 		String prefix = java.util.UUID.randomUUID().toString();
@@ -154,17 +154,17 @@ public class DataOperationsTest2 extends AbstractApiTest {
 		// genTestUtils.logComments(new Date().toString() + " Deleted " +
 		// TOTAL_JSON_DOCS_ADDED + " documents.", LOGLEVEL);
 		//
-		Date end = new Date();
-		genTestUtils.logComments(end.toString() + " Ended Test Case: " + className, LOGLEVEL);
-		genTestUtils.logComments(
-				"Execution time for " + className + " is " + (end.getTime() - start.getTime()) / 1000 + " seconds.",
-				LOGLEVEL);
+			Date end = new Date();
+			genTestUtils.logComments(end.toString() + " Ended Test Case: " + className, LOGLEVEL);
+			genTestUtils.logComments(
+					"Execution time for " + className + " is " + (end.getTime() - start.getTime()) / 1000 + " seconds.",
+					LOGLEVEL);
 	}
 
 	@Test
 	public void testLoadJSONDocuments1() throws Exception {
 
-		String methodName = new DataOperationsTest2() {
+		String methodName = new JSONDataOperationsTest2() {
 		}.getClass().getEnclosingMethod().getName();
 		String className = this.getClass().getName();
 		String prefix = java.util.UUID.randomUUID().toString();

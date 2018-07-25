@@ -1,0 +1,23 @@
+import "subClassOf.rules"
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX onto: <http://marklogic/onto#>
+
+rule "scm-uni1" CONSTRUCT {
+  ?a  onto:_unionOf ?m . 
+}
+{
+  ?a  owl:unionOf ?m . 
+}
+
+rule "scm-uni"     CONSTRUCT  
+{
+  ?c rdfs:subClassOf ?a .
+  ?a  onto:_unionOf    ?d
+}
+{
+     ?a  onto:_unionOf    ?m . 
+     ?m  rdf:first        ?c .     
+     ?m  rdf:rest         ?d .
+}
