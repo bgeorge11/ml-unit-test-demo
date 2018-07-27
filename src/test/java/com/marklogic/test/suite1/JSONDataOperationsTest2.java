@@ -75,6 +75,7 @@ public class JSONDataOperationsTest2 extends AbstractApiTest {
 			InputStreamHandle handle = new InputStreamHandle(docStream);
 			DocumentMetadataHandle metadata = new DocumentMetadataHandle();
 			// add a collection tag
+			metadata.getProperties().put("myAttribute", "myValue");
 			metadata.getCollections().addAll(COLLECTION_NAME);
 			// write the document content
 			docMgr.write("/" + COLLECTION_NAME + "_" + fileName, metadata, handle);

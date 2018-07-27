@@ -42,11 +42,11 @@ TestSuiteC can be used for repeating the data operations (StepB) as many times m
 StepBRepeatRunner is provided separately to configure classes which needs to be tested repeatedly (as for doing a performance benchmark)
 
 # List of TestCases 
-1. DataOperationsTest1.java <br>
+1. MLCPDataOperationsTest1.java <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;testImportDelimitedTextWithTransformation --> Loads a CSV as JSON with transformation and uses mlcp. The transformation modules are installed as part of the test and deleted at the end of test. <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;testImportDelimitedText --> Loads the same CSV as XML without transformation and uses mlcp
-2. DataOperationsTest2.java --> Loading json files using Java APIs
-3. DataOperationsTest3.java --> Loading xml files using Java APIs
+2. JSONDataOperationsTest2.java --> Loading json files using Java APIs
+3. XMLDataOperationsTest3.java --> Loading xml files using Java APIs
 4. BinaryLoadTest2.java --> Loading binary files (images) using Java APIs
 5. POJOWriteTest5.java <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doJacksonOperationsTest --> Loading json documents as POJO writes using Jackson <br>
@@ -55,9 +55,9 @@ StepBRepeatRunner is provided separately to configure classes which needs to be 
 7. SemanticsDataOperationsTest3.java --> Load and read Graph data (TTL format files are loaded). Executes SPARQL query on triples. 
 8. SemanticsDataOperationsTest4.java 
 		doGraphDataOperations --> Create a graph of triples, ontology, query with inferencing using RDFS and OWL HORST, OWL HORST FULL rulesets. Also demonstrates OWL sameAs relationship.  
-9. DataMovementSDKOperationsTest4.java -->  Loads JSON documents using data movement SDK (DMSDK)
-10. DataMovementSDKOperationsTest6.java --> Loads a CSV document, convert to JSON document (one row is one document) and loads to Marklogic using Data movement SDK (DMSDK)
-11. DataOperationsTest5.java --> Load JSON files and patch with a POJO (uses insertFragment, PatchBuilder)
+9. JSONDataMovementSDKOperationsTest4.java -->  Loads JSON documents using data movement SDK (DMSDK)
+10. CSVDataMovementSDKOperationsTest5.java --> Loads a CSV document, convert to JSON document (one row is one document) and loads to Marklogic using Data movement SDK (DMSDK)
+11. JSONPatchDataOperationsTest5.java --> Load JSON files and patch with a POJO (uses insertFragment, PatchBuilder)
 12. QueryOptionsOperationsTest5.java --> Test with different Query options.
 13. PartialExtractOperationsTest5.java --> Extract portions of a document using query options including installation of query options.
 
