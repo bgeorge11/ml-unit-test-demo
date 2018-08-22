@@ -11,7 +11,9 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
+import com.marklogic.test.suite1.pojo.CustomPOJORepositoryOperationsTest4;
 import com.marklogic.test.suite1.pojo.POJOOperationsTest5;
+import com.marklogic.test.suite1.pojo.POJORepositoryOperationsTest4;
 import com.marklogic.test.suite1.semantics.SemanticsDataOperationsTest3;
 import com.marklogic.test.suite1.semantics.SemanticsDataOperationsTest4;
 import com.marklogic.test.suite1.springdata.SpringDataOperationsTest4;
@@ -32,7 +34,9 @@ public class StepBRepeatRunner {
 				CSVDMSDKOperationsTest5.class,
 				PartialExtractOperationsTest5.class,
 				QueryOptionsOperationsTest5.class,
-				POJOOperationsTest5.class, 
+				POJOOperationsTest5.class,
+				POJORepositoryOperationsTest4.class,
+				CustomPOJORepositoryOperationsTest4.class,
 				SpringDataOperationsTest4.class,
 				SemanticsDataOperationsTest3.class,
 				SemanticsDataOperationsTest4.class};

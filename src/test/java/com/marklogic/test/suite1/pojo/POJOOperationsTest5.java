@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -37,7 +36,6 @@ import com.marklogic.client.query.QueryManager;
 import com.marklogic.client.query.StringQueryDefinition;
 import com.marklogic.test.suite1.AbstractApiTest;
 import com.marklogic.test.suite1.GeneralUtils;
-import com.marklogic.test.suite1.pojo.Employee;
 
 
 // illustrates how to write POJOs to the database

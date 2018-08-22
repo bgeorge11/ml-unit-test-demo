@@ -15,6 +15,7 @@ import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.datamovement.DataMovementManager;
 import com.marklogic.client.datamovement.JobTicket;
+import com.marklogic.client.datamovement.QueryBatcher;
 import com.marklogic.client.datamovement.WriteBatcher;
 import com.marklogic.client.io.DocumentMetadataHandle;
 import com.marklogic.client.io.FileHandle;
@@ -112,6 +113,22 @@ public class JSONDMSDKOperationsTest4 extends AbstractApiTest {
 		queryMgr.search(query, resultsHandle);
 		return resultsHandle.getTotalResults();
 	}
+	
+	public long countJSONDocumentsUsingQueryBatcher(DatabaseClient client, String COLLECTION_NAME) {
+		
+		DataMovementManager dmvMgr = client.newDataMovementManager();
+		QueryManager queryMgr = client.newQueryManager();
+		// create a search definition
+		StringQueryDefinition query = queryMgr.newStringDefinition();
+		query.setCollections(COLLECTION_NAME);
+		final QueryBatcher batcher = dmvMgr.newQueryBatcher(query)
+		      .withBatchSize(10)
+			  .withConsistentSnapshot();
+		final JobTicket ticket = dmvMgr.startJob(batcher);
+		batcher.awaitCompletion();
+		dmvMgr.stopJob(ticket);
+		return 0L; 
+	}
 
 	@Test
 	public void testLoadJSONDocuments() throws Exception {
@@ -134,11 +151,13 @@ public class JSONDMSDKOperationsTest4 extends AbstractApiTest {
 		DatabaseClient client = DatabaseClientFactory.newClient(ML_HOST, 8000, DB_NAME,
 				new DatabaseClientFactory.DigestAuthContext(ML_USER, ML_PASSWORD));
 		loadJSONDocuments(client, COLLECTION_NAME);
-		long countOfJsonDocs = countJSONDocuments(client, COLLECTION_NAME);
+		long countOfJsonDocs = countJSONDocumentsUsingQueryBatcher(client, COLLECTION_NAME);
 		genTestUtils.logComments(new Date().toString() + " Loaded " + TOTAL_JSON_DOCS_ADDED + " documents.", LOGLEVEL);
 
 		assertEquals(5, countOfJsonDocs);
 		genTestUtils.logComments(new Date().toString() + " Loaded " + TOTAL_JSON_DOCS_ADDED + " documents.", LOGLEVEL);
+		
+		
 
 		Date end = new Date();
 		genTestUtils.logComments(end.toString() + " Ended Test Case: " + className, LOGLEVEL);

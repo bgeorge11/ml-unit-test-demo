@@ -16,6 +16,7 @@ import io.github.malteseduck.springframework.data.marklogic.core.MarkLogicTempla
 import static com.marklogic.client.DatabaseClientFactory.newClient;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class SpringDataOperationsTest4 extends AbstractApiTest {
 	String DB_NAME = "";
 
 	private static final StructuredQueryBuilder qb = new StructuredQueryBuilder();
-
+	
 	@Test
 	public void doSpringDataTest() {
 
@@ -60,6 +61,17 @@ public class SpringDataOperationsTest4 extends AbstractApiTest {
 		ops.write(new Person(1, "Bobby", 23));
 		ops.write(new Person(2, "Sam", 26));
 		ops.write(new Person(3, "Tara", 33));
+		
+		List<String> uris = new ArrayList<String>();
+		String uri1 = "/Person/1.json";
+		uris.add(uri1);
+		ops.read(uris);
+		
+		List<Integer> ids = new ArrayList<Integer>();
+		Integer id = 1;
+		ids.add(id);
+		ops.read(ids,Person.class);
+				
 
 		Person bobby = ops.searchOne(qb.value(qb.jsonProperty("name"), "Bobby"), Person.class);
 		assertEquals(bobby.getName(), "Bobby");
