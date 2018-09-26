@@ -61,5 +61,5 @@ StepBRepeatRunner is provided separately to configure classes which needs to be 
 12. QueryOptionsOperationsTest5.java --> Test with different Query options.
 13. PartialExtractOperationsTest5.java --> Extract portions of a document using query options including installation of query options.
 14. POJORepositoryOperationsTest4.java --> Insert a POJO as a JSON using POJORepository. 
-15. CustomPOJORepositoryOperationsTest4.java --> Insert a POJO as a JSON using a custom implementation of POJORepository.
+15. CustomPOJORepositoryOperationsTest4.java --> Insert a POJO as a JSON using a custom implementation of POJORepository. Also demonstrates adding metadata and properties to the document added using POJORepository. The validation is done by querying by metadata value using options.
 

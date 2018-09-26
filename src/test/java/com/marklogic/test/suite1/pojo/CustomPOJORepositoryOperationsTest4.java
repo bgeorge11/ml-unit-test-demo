@@ -1,6 +1,5 @@
 package com.marklogic.test.suite1.pojo;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Date;
 
@@ -11,10 +10,17 @@ import org.springframework.context.annotation.PropertySource;
 
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
-import com.marklogic.client.pojo.PojoPage;
-import com.marklogic.client.pojo.PojoQueryBuilder;
-import com.marklogic.client.pojo.PojoQueryDefinition;
+import com.marklogic.client.admin.QueryOptionsManager;
+import com.marklogic.client.io.DocumentMetadataHandle;
+import com.marklogic.client.io.DocumentMetadataHandle.DocumentProperties;
+import com.marklogic.client.io.SearchHandle;
+import com.marklogic.client.io.StringHandle;
 import com.marklogic.client.pojo.PojoRepository;
+import com.marklogic.client.query.MatchDocumentSummary;
+import com.marklogic.client.query.QueryManager;
+import com.marklogic.client.query.StringQueryDefinition;
+import com.marklogic.client.query.StructuredQueryBuilder;
+import com.marklogic.client.query.StructuredQueryDefinition;
 import com.marklogic.test.suite1.AbstractApiTest;
 import com.marklogic.test.suite1.GeneralUtils;
 
@@ -90,12 +96,19 @@ public class CustomPOJORepositoryOperationsTest4 extends AbstractApiTest {
 		peters.getTags().add(new Tag("aute"));
 		peters.getTags().add(new Tag("nisi"));
 		
-
+		DocumentMetadataHandle metaHandle = new DocumentMetadataHandle();
+		DocumentProperties props = metaHandle.getProperties();
+		props.put("prop1", "value1");
+		props.put("prop2", "value2");
+		
 		DAOFactory daoFactory = new DAOFactory();
+		PojoRepository<User,String> userRepo = daoFactory.getPojoRepository(client, User.class, props);
 
-		PojoRepository<User, String> userRepo = daoFactory.getPojoRepository(client, User.class);
 		shauna.setGUID("shauna_"+COLLECTION_NAME);
-		userRepo.write(shauna, COLLECTION_NAME);
+		userRepo.write(shauna,COLLECTION_NAME);
+		
+		props.put("prop3", "value3");
+		//props.clear(); /*In case to test empty metadata properties*/
 		peters.setGUID("peters_"+COLLECTION_NAME);
 		userRepo.write(peters, COLLECTION_NAME);
 		
@@ -103,6 +116,46 @@ public class CustomPOJORepositoryOperationsTest4 extends AbstractApiTest {
 		
 		assertEquals("Peters Barnett", resultUser.getName());
 		
+		/*Query by meta data myMeta1 which was added through POJORepository.write. 
+		 * A metadata field on myMeta1 is a prerequisite */
+		
+		String optionsName = "myOptions"; 
+		QueryOptionsManager optionsMgr = client.newServerConfigManager().newQueryOptionsManager();
+		String opts1 = "<search:options xmlns:search='http://marklogic.com/appservices/search'>"
+						+ "<search:constraint name=\"by\">"
+						+ "<search:word>"
+						+ "<search:field name=\"myMeta1\"/>"
+						+ "</search:word>"
+						+ "</search:constraint>"
+						+ "<search:additional-query>"
+						+ "<cts:collection-query xmlns:cts=\"http://marklogic.com/cts\">"
+						+ "<cts:uri>"+ COLLECTION_NAME + "</cts:uri>"
+				        + " </cts:collection-query>"
+				        + "</search:additional-query>"
+						+ "</search:options>";
+
+		StringHandle handle = new StringHandle(opts1);
+		optionsMgr.writeOptions(optionsName, handle);
+				/**** SEARCH ****/
+		// create a manager for searching
+		QueryManager queryMgr = client.newQueryManager();
+		// create a search definition using the "tutorial" options
+		StringQueryDefinition query = queryMgr.newStringDefinition("myOptions");
+		query.setCriteria("by:myValue1");
+		// run the search
+		SearchHandle resultsHandle = queryMgr.search(query, new SearchHandle());
+		MatchDocumentSummary[] results = resultsHandle.getMatchResults();
+		assertEquals(2,results.length);
+		optionsMgr.deleteOptions(optionsName);
+		
+		/* Another way of Search */
+        StructuredQueryBuilder sqb = queryMgr.newStructuredQueryBuilder();
+        StructuredQueryDefinition query1 = sqb.word(sqb.field("myMeta1"),"myValue1");
+        query1.setCollections(COLLECTION_NAME);
+        resultsHandle = queryMgr.search(query1, new SearchHandle());
+		results = resultsHandle.getMatchResults();
+		assertEquals(2,results.length);
+			
 		Date end = new Date();
 		genTestUtils.logComments(end.toString() + " Ended Test Case: " + methodName, LOGLEVEL);
 		genTestUtils.logComments(

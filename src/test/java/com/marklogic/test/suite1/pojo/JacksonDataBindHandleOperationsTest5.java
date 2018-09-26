@@ -9,8 +9,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MappingJsonFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
+import com.marklogic.client.document.DocumentWriteSet;
+import com.marklogic.client.document.JSONDocumentManager;
+import com.marklogic.client.io.DocumentMetadataHandle;
+import com.marklogic.client.io.Format;
+import com.marklogic.client.io.JacksonDatabindHandle;
 import com.marklogic.client.pojo.PojoPage;
 import com.marklogic.client.pojo.PojoQueryBuilder;
 import com.marklogic.client.pojo.PojoQueryDefinition;
@@ -22,7 +32,7 @@ import com.marklogic.test.suite1.GeneralUtils;
 @Configuration
 @PropertySource(value = { "classpath:contentpump.properties",
 		"classpath:user.properties" }, ignoreResourceNotFound = true)
-public class POJORepositoryOperationsTest4 extends AbstractApiTest {
+public class JacksonDataBindHandleOperationsTest5 extends AbstractApiTest {
 
 	@Value("${mlHost}")
 	private String ML_HOST;
@@ -41,9 +51,9 @@ public class POJORepositoryOperationsTest4 extends AbstractApiTest {
 	String DB_NAME = "";
 
 	@Test
-	public void doPojoRepositoryOperationsTest() throws FileNotFoundException {
+	public void doJacksonDataBindOperationsTest() throws FileNotFoundException, JsonProcessingException {
 
-		String methodName = new POJORepositoryOperationsTest4() {
+		String methodName = new JacksonDataBindHandleOperationsTest5() {
 		}.getClass().getEnclosingMethod().getName();
 		String className = this.getClass().getName();
 		File fl = new File(POJO_PATH);
@@ -89,19 +99,30 @@ public class POJORepositoryOperationsTest4 extends AbstractApiTest {
 		peters.getTags().add(new Tag("non"));
 		peters.getTags().add(new Tag("aute"));
 		peters.getTags().add(new Tag("nisi"));
-		
-		
 		shauna.setGUID("shauna_"+COLLECTION_NAME);
 		peters.setGUID("peters_"+COLLECTION_NAME);
 
-		PojoRepository<User, String> userRepo = client.newPojoRepository(User.class, String.class);
+		ObjectMapper mapper = new ObjectMapper();
+		 
+		SimpleModule module = new SimpleModule();
+		module.addSerializer(User.class, new UserSerializer());
+		mapper.registerModule(module);
+		JSONDocumentManager docMgr = client.newJSONDocumentManager();
 		
-		userRepo.write(shauna, COLLECTION_NAME);
-		userRepo.write(peters, COLLECTION_NAME);
+		JacksonDatabindHandle handle = new JacksonDatabindHandle(peters);
+		DocumentMetadataHandle meta = new DocumentMetadataHandle();
+		meta.withCollections(COLLECTION_NAME);
 		
-		User resultUser = userRepo.read(shauna.getGUID());
-
-		assertEquals("Shauna Weber", resultUser.getName());
+		handle.setMapper(mapper);
+		handle.setFormat(Format.JSON);
+		docMgr.write("peters_"+COLLECTION_NAME+".json", handle);
+		
+		handle = new JacksonDatabindHandle(shauna);
+		handle.setMapper(mapper);
+		handle.setFormat(Format.JSON);
+		docMgr.write("shauna_"+ COLLECTION_NAME+".json", handle);
+		
+//		assertEquals("Shauna Weber", resultUser.getName());
 
 		Date end = new Date();
 		genTestUtils.logComments(end.toString() + " Ended Test Case: " + methodName, LOGLEVEL);

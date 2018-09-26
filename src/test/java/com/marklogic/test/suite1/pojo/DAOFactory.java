@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import com.marklogic.client.DatabaseClient;
+import com.marklogic.client.io.DocumentMetadataHandle.DocumentProperties;
 import com.marklogic.client.pojo.PojoRepository;
 import com.marklogic.client.pojo.annotation.Id;
 
@@ -17,10 +18,11 @@ public class DAOFactory {
 	private DatabaseClient client;
 	// Return a POJO Repository for a given class
 	@SuppressWarnings("unchecked")
-	public <T, ID extends Serializable> PojoRepository<T, ID> getPojoRepository(DatabaseClient client, Class<T> classy) {
+	public <T, ID extends Serializable> PojoRepository<T, ID> getPojoRepository(DatabaseClient client, Class<T> classy,
+			                                                                    DocumentProperties props) {
 		Class<ID> Id =  getIdClass(classy);
 		@SuppressWarnings("rawtypes")
-		PojoRepository<T, ID> pojoRepository = new CustomPojoRepositoryImpl(client, classy, Id);
+		PojoRepository<T, ID> pojoRepository = new CustomPojoRepositoryImpl(client, classy, Id, props);
 		return pojoRepository;
 	}
 	

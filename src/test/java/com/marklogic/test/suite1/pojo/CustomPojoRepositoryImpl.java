@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.TimeZone;
@@ -13,16 +14,24 @@ import java.util.TimeZone;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.marklogic.client.DatabaseClient;
+import com.marklogic.client.MarkLogicBindingException;
+import com.marklogic.client.MarkLogicIOException;
 import com.marklogic.client.MarkLogicInternalException;
 import com.marklogic.client.ResourceNotFoundException;
 import com.marklogic.client.Transaction;
 import com.marklogic.client.document.DocumentPage;
+import com.marklogic.client.document.DocumentWriteSet;
 import com.marklogic.client.document.JSONDocumentManager;
 import com.marklogic.client.impl.HandleAccessor;
 import com.marklogic.client.impl.PojoRepositoryImpl;
+import com.marklogic.client.io.DocumentMetadataHandle;
+import com.marklogic.client.io.DocumentMetadataHandle.DocumentMetadataValues;
+import com.marklogic.client.io.DocumentMetadataHandle.DocumentProperties;
+import com.marklogic.client.io.JacksonDatabindHandle;
 import com.marklogic.client.io.SearchHandle;
 import com.marklogic.client.io.marker.SearchReadHandle;
 import com.marklogic.client.pojo.PojoPage;
@@ -41,6 +50,8 @@ public class CustomPojoRepositoryImpl<T, ID extends Serializable>
     @SuppressWarnings("unused")
     private Class<ID> idClass;
     private JSONDocumentManager docMgr;
+    private DocumentMetadataHandle metadataHandle = new DocumentMetadataHandle();
+    private DocumentProperties props;
     private PojoQueryBuilder<T> qb;
     @SuppressWarnings("unused")
     private String idPropertyName;
@@ -68,11 +79,13 @@ public class CustomPojoRepositoryImpl<T, ID extends Serializable>
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
         .setDateFormat(simpleDateFormat8601);
 
-    CustomPojoRepositoryImpl(DatabaseClient client, Class<T> entityClass, Class<ID> idClass) {
+    CustomPojoRepositoryImpl(DatabaseClient client, Class<T> entityClass, Class<ID> idClass, DocumentProperties props) {
     	pojoRepository = (PojoRepositoryImpl<T,ID>) client.newPojoRepository(entityClass, idClass);
     	pojoRepository.setObjectMapper(objectMapper);
     	docMgr = client.newJSONDocumentManager();
-    	this.entityClass = entityClass;
+    	this.props = props;
+    	// add a collection tag
+		this.entityClass = entityClass;
     	this.idClass = idClass;
     }
 
@@ -80,9 +93,35 @@ public class CustomPojoRepositoryImpl<T, ID extends Serializable>
     public void write(T entity) {
     	pojoRepository.write(entity, null, (String[]) null);
     }
+    
+   
     @Override
     public void write(T entity, String... collections) {
-    	pojoRepository.write(entity, null, collections);
+    	//pojoRepository.write(entity, null, collections); /*Custom Implementation below to add meta data */
+
+   	 if ( entity == null ) return;
+	    JacksonDatabindHandle<T> contentHandle = new JacksonDatabindHandle<>(entity);
+	    contentHandle.setMapper(objectMapper);
+	    DocumentMetadataHandle metadataHandle = new DocumentMetadataHandle();
+	    metadataHandle = metadataHandle.withCollections(entityClass.getName());
+	    if ( collections != null && collections.length > 0 ) {
+	      metadataHandle = metadataHandle.withCollections(collections);
+	    }
+	    if (props != null)
+	    {
+	    	metadataHandle.setProperties(props);
+	    }
+	    metadataHandle.getMetadataValues().add("myMeta1", "myValue1");
+	    metadataHandle.getMetadataValues().add("endDate", new Date().toString());
+	    DocumentWriteSet writeSet = docMgr.newWriteSet();
+	    writeSet.add(getDocumentUri(entity), metadataHandle, contentHandle);
+	    try {
+	      docMgr.write(writeSet);
+	    } catch(MarkLogicIOException e) {
+	      checkForEmptyBeans(e);
+	      throw e;
+	    }
+  	 
     }
     @Override
     public void write(T entity, Transaction transaction) {
@@ -91,8 +130,24 @@ public class CustomPojoRepositoryImpl<T, ID extends Serializable>
     @Override
     public void write(T entity, Transaction transaction, String... collections) {
     	pojoRepository.write(entity, transaction, collections);
+
     }
 
+    private void checkForEmptyBeans(Throwable e) {
+        Throwable cause = e.getCause();
+        if ( cause != null ) {
+          if ( cause instanceof JsonMappingException &&
+            cause.getMessage() != null &&
+            cause.getMessage().contains("SerializationFeature.FAIL_ON_EMPTY_BEANS") )
+          {
+            throw new MarkLogicBindingException(
+              "Each of your pojo beans and descendent beans must have public fields or paired get/set methods",
+              cause);
+          } else {
+            checkForEmptyBeans(cause);
+          }
+        }
+      }
     @Override
     public boolean exists(ID id) {
     	return pojoRepository.exists(id);
