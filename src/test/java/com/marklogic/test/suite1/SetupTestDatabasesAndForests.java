@@ -13,6 +13,7 @@ import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.eval.EvalResultIterator;
 import com.marklogic.client.eval.ServerEvaluationCall;
 import com.marklogic.mgmt.api.database.Database;
+import com.marklogic.mgmt.api.database.ElementIndex;
 import com.marklogic.mgmt.api.forest.Forest;
 
 @Configuration
@@ -64,6 +65,7 @@ public class SetupTestDatabasesAndForests extends AbstractApiTest {
 		assertFalse(db.exists());
 		db.setSchemaDatabase("Schemas");
 		db.setSecurityDatabase("Security");
+		db.setFastReverseSearches(true); // Added this for alerting test cases. 
 		db.save();
 		assertTrue(db.exists());
 		client.release();

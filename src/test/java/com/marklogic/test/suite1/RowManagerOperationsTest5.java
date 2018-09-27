@@ -4,13 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,19 +17,13 @@ import org.springframework.context.annotation.PropertySource;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
-import com.marklogic.client.admin.QueryOptionsManager;
 import com.marklogic.client.document.JSONDocumentManager;
 import com.marklogic.client.eval.ServerEvaluationCall;
 import com.marklogic.client.expression.PlanBuilder;
-import com.marklogic.client.expression.PlanBuilder.ExportablePlan;
 import com.marklogic.client.expression.PlanBuilder.ModifyPlan;
 import com.marklogic.client.io.DocumentMetadataHandle;
 import com.marklogic.client.io.InputStreamHandle;
 import com.marklogic.client.io.JacksonHandle;
-import com.marklogic.client.io.StringHandle;
-import com.marklogic.client.io.ValuesHandle;
-import com.marklogic.client.query.QueryManager;
-import com.marklogic.client.query.ValuesDefinition;
 import com.marklogic.client.row.RowManager;
 import com.marklogic.client.type.CtsQueryExpr;
 import com.marklogic.client.type.CtsReferenceExpr;
@@ -40,8 +31,6 @@ import com.marklogic.client.type.PlanAggregateCol;
 import com.marklogic.client.type.XsIntSeqVal;
 import com.marklogic.client.type.XsStringSeqVal;
 import com.marklogic.client.type.XsStringVal;
-import com.marklogic.mgmt.admin.AdminManager;
-import com.marklogic.mgmt.api.API;
 import com.marklogic.mgmt.api.database.Database;
 
 @Configuration
@@ -65,7 +54,7 @@ public class RowManagerOperationsTest5 extends AbstractApiTest {
 	private String RANGE_ELEMENT_INDEX_SCALAR_TYPE;
 	@Value("${mlRangeElementIndexNS}")
 	private String RANGE_ELEMENT_INDEX_NS;
-	@Value("${JSONDocPath}")
+	@Value("${opticTestPath}")
 	private String JSON_DOC_PATH;
 	@Value("${JSONDocCollectionSuffix}")
 	private String JSON_DOC_COLLECTION_SUFFIX;
@@ -76,7 +65,7 @@ public class RowManagerOperationsTest5 extends AbstractApiTest {
 
 	@After
 	public void teardown() {
-
+		
 	}
 
 	public void loadJSONDocuments(DatabaseClient client, String COLLECTION_NAME) throws Exception {
@@ -130,6 +119,47 @@ public class RowManagerOperationsTest5 extends AbstractApiTest {
 		return aggrColArry;
 	}
 	
+	public void createPathRangeIndexes(DatabaseClient restClient, String DB_NAME) {
+		ServerEvaluationCall theCall = restClient.newServerEval();
+		String query = 
+				"xquery version \"1.0-ml\";"
+				+ "import module namespace admin=\"http://marklogic.com/xdmp/admin\" 				at \"/MarkLogic/admin.xqy\";"
+				+ "declare variable $dbid := xdmp:database(\"" + DB_NAME + "\");"
+				+ "declare variable $config := admin:get-configuration();"
+				+ "declare variable $pathspec1 :=  admin:database-range-path-index( $dbid, \"int\", \"position/acctSk\", \"\", fn:false(), \"ignore\");" 
+				+ "declare variable $pathspec2 :=  admin:database-range-path-index( $dbid, \"decimal\", \"position/mvLclAmt\", \"\", fn:false(), \"ignore\");" 
+				+ "declare variable $pathspec3 :=  admin:database-range-path-index( $dbid, \"decimal\", \"position/exchRtAmt\", \"\", fn:false(), \"ignore\");" 
+				+ "declare variable $pathspec4 :=  admin:database-range-path-index( $dbid, \"decimal\", \"position/adjBaseLclAmt\", \"\", fn:false(), \"ignore\");" 
+				+ "declare variable $pathspec5 :=  admin:database-range-path-index( $dbid, \"date\", \"position/valnAsOfDate\", \"http://marklogic.com/collation/\", fn:false(), \"ignore\");" 
+				+ "declare variable $pathspec6 :=  admin:database-range-path-index( $dbid, \"string\", \"position/astIssType\", \"http://marklogic.com/collation/\", fn:false(), \"ignore\");"
+				+ "declare variable $pathspec7 :=  admin:database-range-path-index( $dbid, \"string\", \"position/instrId\", \"http://marklogic.com/collation/\", fn:false(), \"ignore\");"
+				+ "declare variable $pathspec8 :=  admin:database-range-path-index( $dbid, \"date\", \"position/calendarDate\", \"http://marklogic.com/collation/\", fn:false(), \"ignore\");"
+				+ "admin:save-configuration(admin:database-add-range-path-index($config, $dbid, ($pathspec1,$pathspec2,$pathspec3,$pathspec4,$pathspec5,$pathspec6,$pathspec7,$pathspec8)))";
+		theCall.xquery(query);
+		String response = theCall.evalAs(String.class);
+	}
+	
+	public void deletePathRangeIndexes(DatabaseClient restClient, String DB_NAME) {
+
+		ServerEvaluationCall theCall = restClient.newServerEval();
+		String query = 
+				"xquery version \"1.0-ml\";"
+				+ "import module namespace admin=\"http://marklogic.com/xdmp/admin\" 				at \"/MarkLogic/admin.xqy\";"
+				+ "declare variable $dbid := xdmp:database(\"" + DB_NAME + "\");"
+				+ "declare variable $config := admin:get-configuration();"
+				+ "declare variable $pathspec1 :=  admin:database-range-path-index( $dbid, \"int\", \"position/acctSk\", \"\", fn:false(), \"ignore\");" 
+				+ "declare variable $pathspec2 :=  admin:database-range-path-index( $dbid, \"decimal\", \"position/mvLclAmt\", \"\", fn:false(), \"ignore\");" 
+				+ "declare variable $pathspec3 :=  admin:database-range-path-index( $dbid, \"decimal\", \"position/exchRtAmt\", \"\", fn:false(), \"ignore\");" 
+				+ "declare variable $pathspec4 :=  admin:database-range-path-index( $dbid, \"decimal\", \"position/adjBaseLclAmt\", \"\", fn:false(), \"ignore\");" 
+				+ "declare variable $pathspec5 :=  admin:database-range-path-index( $dbid, \"date\", \"position/valnAsOfDate\", \"http://marklogic.com/collation/\", fn:false(), \"ignore\");" 
+				+ "declare variable $pathspec6 :=  admin:database-range-path-index( $dbid, \"string\", \"position/astIssType\", \"http://marklogic.com/collation/\", fn:false(), \"ignore\");"
+				+ "declare variable $pathspec7 :=  admin:database-range-path-index( $dbid, \"string\", \"position/instrId\", \"http://marklogic.com/collation/\", fn:false(), \"ignore\");"
+				+ "declare variable $pathspec8 :=  admin:database-range-path-index( $dbid, \"date\", \"position/calendarDate\", \"http://marklogic.com/collation/\", fn:false(), \"ignore\");"
+				+ "admin:save-configuration(admin:database-delete-range-path-index($config, $dbid, ($pathspec1,$pathspec2,$pathspec3,$pathspec4,$pathspec5,$pathspec6,$pathspec7,$pathspec8)))";
+		theCall.xquery(query);
+		String response = theCall.evalAs(String.class);
+	}
+	
 	@Test
 	public void testLoadAndQueryWithOptions() throws Exception {
 
@@ -146,9 +176,9 @@ public class RowManagerOperationsTest5 extends AbstractApiTest {
 		GeneralUtils genTestUtils = new GeneralUtils();
 		genTestUtils.logComments(start.toString() + " Started Test Case: " + className, LOGLEVEL);
 		
-		accountArr[0] = 9994;
-		accountArr[1] = 9158;
-		accountArr[2] = 3245;
+		accountArr[0] = 90001;
+		accountArr[1] = 90002;
+		accountArr[2] = 90003;
 		aggrFields[0] = "mvLclAmt";
 		aggrFields[1] = "exchRtAmt";
 		aggrFields[2] = "adjBaseLclAmt";
@@ -156,6 +186,9 @@ public class RowManagerOperationsTest5 extends AbstractApiTest {
 		// Find DB Name
 		DB_NAME = genTestUtils.getDBName(className, NAME_PREFIX);
 		assertNotEquals("ERROR", DB_NAME);
+		DatabaseClient client = DatabaseClientFactory.newClient(ML_HOST, 8000, DB_NAME,
+				new DatabaseClientFactory.DigestAuthContext(ML_USER, ML_PASSWORD));
+
 		
 		/* Create the below path range indexes
 		position/acctSk
@@ -166,33 +199,17 @@ public class RowManagerOperationsTest5 extends AbstractApiTest {
 	    position/astIssType
 	    position/instrId"
     */
-			
-//		DatabaseClient restClient = DatabaseClientFactory.newClient(ML_HOST, 8000, "Documents",
-//				new DatabaseClientFactory.DigestAuthContext(ML_USER, ML_PASSWORD));
-//
-//		ServerEvaluationCall theCall = restClient.newServerEval();
-//		String query = 
-//				"xquery version \"1.0-ml\";"
-//			+ " import module namespace admin=\"http://marklogic.com/xdmp/admin\""
-//			+ " 				at \"/MarkLogic/admin.xqy\";"
-//			+ " declare variable $dbid := xdmp:database(\""+DB_NAME+"\");"
-//			+ " declare variable $config := admin:get-configuration();"
-//			+ " declare variable $pathspec:=  admin:database-range-path-index("
-//			+ " $dbid,"
-//			+ " \"string\","
-//			+ " \"position/astIssType\","
-//			+ " \"http://marklogic.com/collation/\","
-//			+ " fn:false(),"
-//			+ " \"ignore\");"
-//			+ " admin:save-configuration(admin:database-add-range-path-index($config, $dbid, $pathspec));";
-//		theCall.xquery(query);
-//		System.out.println(query);
-//		String response = theCall.evalAs(String.class);
+		genTestUtils.logComments("Creating PathRange Indexes", LOGLEVEL);
+		createPathRangeIndexes(client, DB_NAME);
+		genTestUtils.logComments("Completed Creating PathRange Indexes", LOGLEVEL);
 		
-
-		//Load some and count documents
-		DatabaseClient client = DatabaseClientFactory.newClient(ML_HOST, 8000, DB_NAME,
-				new DatabaseClientFactory.DigestAuthContext(ML_USER, ML_PASSWORD));
+		//Load some documents
+		genTestUtils.logComments("Loading documents", LOGLEVEL);
+				loadJSONDocuments(client, "positions");
+		genTestUtils.logComments("Completed loading documents", LOGLEVEL);
+		
+		genTestUtils.logComments("Starting Optic Queries testing", LOGLEVEL);
+		//Do some optic work.. 
 			
 		RowManager rowMgr = client.newRowManager();
 		PlanBuilder planBuilder = rowMgr.newPlanBuilder();
@@ -224,17 +241,24 @@ public class RowManagerOperationsTest5 extends AbstractApiTest {
 				.whereDistinct();		
 	    ModifyPlan  extractPositions = extractPositions2.joinInner(extractPositions1,
 	    		                                         planBuilder.on("acctSk", "acctSk"));
-	    
-		JacksonHandle jacksonHandle = new JacksonHandle();
+	    JacksonHandle jacksonHandle = new JacksonHandle();
 	    jacksonHandle.setMimetype("application/json");
 
 	    rowMgr.resultDoc(extractPositions, jacksonHandle);
 	    
 	    JsonNode jsonResults = jacksonHandle.get();
 	    JsonNode jsonBindingsNodes = jsonResults.path("rows");
-	    genTestUtils.logComments("# OF rows returned by Optic innerjoin" + 
+	    genTestUtils.logComments("# OF rows returned by Optic innerjoin is " + 
 	    							jsonBindingsNodes.size(), LOGLEVEL);
 	    assertEquals(3,jsonBindingsNodes.size());
+	    
+	    genTestUtils.logComments("Completed Optic Queries testing", LOGLEVEL);
+	    /*
+	     * Delete the indexes so that the test case is repeatable.
+	     */
+	    genTestUtils.logComments("Deleting Path Range indexes", LOGLEVEL);
+	    deletePathRangeIndexes(client, DB_NAME);
+	    genTestUtils.logComments("Deleted Path Range indexes", LOGLEVEL);
 	    
 	    Date end = new Date();
 		genTestUtils.logComments(end.toString() + " Ended Test Case: " + className, LOGLEVEL);

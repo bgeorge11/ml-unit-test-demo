@@ -11,6 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.admin.QueryOptionsManager;
+import com.marklogic.client.eval.ServerEvaluationCall;
 import com.marklogic.client.io.DocumentMetadataHandle;
 import com.marklogic.client.io.DocumentMetadataHandle.DocumentProperties;
 import com.marklogic.client.io.SearchHandle;
@@ -45,6 +46,34 @@ public class CustomPOJORepositoryOperationsTest4 extends AbstractApiTest {
 
 	private String COLLECTION_NAME = "";
 	String DB_NAME = "";
+	
+	public void addMetaDataField (DatabaseClient restClient, String DB_NAME) {
+		ServerEvaluationCall theCall = restClient.newServerEval();
+		String query = 
+				"xquery version \"1.0-ml\";"
+				+ "import module namespace admin=\"http://marklogic.com/xdmp/admin\" at \"/MarkLogic/admin.xqy\";"
+				+ "declare variable $dbid := xdmp:database(\"" + DB_NAME + "\");"
+				+ "declare variable $config := admin:get-configuration();"
+				+ "declare variable $fieldspec := admin:database-metadata-field(\"myMeta1\");"
+				+ "declare variable $new-config := admin:database-add-field($config, $dbid, $fieldspec);"
+				+ "admin:save-configuration($new-config)";
+		theCall.xquery(query);
+		String response = theCall.evalAs(String.class);
+	}
+	
+	public void deleteMetaDataField (DatabaseClient restClient, String DB_NAME) {
+		ServerEvaluationCall theCall = restClient.newServerEval();
+		String query = 
+				"xquery version \"1.0-ml\";"
+				+ "import module namespace admin=\"http://marklogic.com/xdmp/admin\" at \"/MarkLogic/admin.xqy\";"
+				+ "declare variable $dbid := xdmp:database(\"" + DB_NAME + "\");"
+				+ "declare variable $config := admin:get-configuration();"
+				+ "declare variable $new-config := admin:database-delete-field($config, $dbid, \"myMeta1\");"
+				+ "admin:save-configuration($new-config)";
+		theCall.xquery(query);
+		String response = theCall.evalAs(String.class);
+	}
+
 
 	@Test
 	public void doCustomePojoRepositoryOperationsTest() throws FileNotFoundException {
@@ -65,7 +94,11 @@ public class CustomPOJORepositoryOperationsTest4 extends AbstractApiTest {
 		// create the client
 		DatabaseClient client = DatabaseClientFactory.newClient(ML_HOST, 8000, DB_NAME,
 				new DatabaseClientFactory.DigestAuthContext(ML_USER, ML_PASSWORD));
-
+		/*
+		 * This testcase has a search on metadata field myMeta1. Create that field
+		 */
+		addMetaDataField(client, DB_NAME);
+		
 		User shauna = new User();
 		shauna.setName("Shauna Weber");
 		shauna.setAddress("760 Forest Place, Glenshaw, Michigan, 1175");
@@ -119,6 +152,8 @@ public class CustomPOJORepositoryOperationsTest4 extends AbstractApiTest {
 		/*Query by meta data myMeta1 which was added through POJORepository.write. 
 		 * A metadata field on myMeta1 is a prerequisite */
 		
+		
+		
 		String optionsName = "myOptions"; 
 		QueryOptionsManager optionsMgr = client.newServerConfigManager().newQueryOptionsManager();
 		String opts1 = "<search:options xmlns:search='http://marklogic.com/appservices/search'>"
@@ -139,7 +174,6 @@ public class CustomPOJORepositoryOperationsTest4 extends AbstractApiTest {
 				/**** SEARCH ****/
 		// create a manager for searching
 		QueryManager queryMgr = client.newQueryManager();
-		// create a search definition using the "tutorial" options
 		StringQueryDefinition query = queryMgr.newStringDefinition("myOptions");
 		query.setCriteria("by:myValue1");
 		// run the search
@@ -155,6 +189,11 @@ public class CustomPOJORepositoryOperationsTest4 extends AbstractApiTest {
         resultsHandle = queryMgr.search(query1, new SearchHandle());
 		results = resultsHandle.getMatchResults();
 		assertEquals(2,results.length);
+		
+		/*
+		 * Delete the created metadata field to make the test case repeatable
+		 */
+		deleteMetaDataField(client,DB_NAME);
 			
 		Date end = new Date();
 		genTestUtils.logComments(end.toString() + " Ended Test Case: " + methodName, LOGLEVEL);

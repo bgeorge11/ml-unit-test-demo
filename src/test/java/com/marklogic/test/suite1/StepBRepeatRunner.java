@@ -39,6 +39,7 @@ public class StepBRepeatRunner {
 				CustomPOJORepositoryOperationsTest4.class,
 				SpringDataOperationsTest4.class,
 				SemanticsDataOperationsTest3.class,
+				RowManagerOperationsTest5.class,
 				SemanticsDataOperationsTest4.class};
 		
 		Result results = JUnitCore.runClasses(ParallelComputer.methods(), cls);
