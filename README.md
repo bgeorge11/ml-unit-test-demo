@@ -48,19 +48,20 @@ StepBRepeatRunner is provided separately to configure classes which needs to be 
 2. JSONDataOperationsTest2.java --> Loading json files using Java APIs
 3. XMLDataOperationsTest3.java --> Loading xml files using Java APIs
 4. BinaryLoadTest2.java --> Loading binary files (images) using Java APIs
-5. POJOWriteTest5.java <br>
+5. POJOOperationsTest5.java <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doJacksonOperationsTest --> Loading json documents as POJO writes using Jackson <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doJAXBOperationsTest --> Loading xml documents as POJO writes using Jackson
 6. SpringDataOperationsTest4.java --> Loading data with Spring Data Extension for MarkLogic 
 7. SemanticsDataOperationsTest3.java --> Load and read Graph data (TTL format files are loaded). Executes SPARQL query on triples. 
 8. SemanticsDataOperationsTest4.java 
 		doGraphDataOperations --> Create a graph of triples, ontology, query with inferencing using RDFS and OWL HORST, OWL HORST FULL rulesets. Also demonstrates OWL sameAs relationship.  
-9. JSONDataMovementSDKOperationsTest4.java -->  Loads JSON documents using data movement SDK (DMSDK)
-10. CSVDataMovementSDKOperationsTest5.java --> Loads a CSV document, convert to JSON document (one row is one document) and loads to Marklogic using Data movement SDK (DMSDK)
+9. JSONDMSDKOperationsTest4.java -->  Loads JSON documents using data movement SDK (DMSDK)
+10. CSVDMSDKOperationsTest5.java --> Loads a CSV document, convert to JSON document (one row is one document) and loads to Marklogic using Data movement SDK (DMSDK)
 11. JSONPatchDataOperationsTest5.java --> Load JSON files and patch with a POJO (uses insertFragment, PatchBuilder)
 12. QueryOptionsOperationsTest5.java --> Test with different Query options.
 13. PartialExtractOperationsTest5.java --> Extract portions of a document using query options including installation of query options.
 14. POJORepositoryOperationsTest4.java --> Insert a POJO as a JSON using POJORepository. 
 15. CustomPOJORepositoryOperationsTest4.java --> Insert a POJO as a JSON using a custom implementation of POJORepository. Also demonstrates adding metadata and properties to the document added using POJORepository. The validation is done by querying by metadata value using options.
 16. RowManagerOperationsTest5.java --> Optic API usage demonstration. Few JSON documents are added, path range indexes are added. Then a relational view is created using Optic APIs. 
+17. AlertingOperationsTest3.java --> Creates a rule and matches a transient document against that rule. (Alerting capability illustration)
 

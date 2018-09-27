@@ -29,13 +29,15 @@ public class StepBRunner {
 						CSVDMSDKOperationsTest5.class,
 						PartialExtractOperationsTest5.class,
 						QueryOptionsOperationsTest5.class,
+						JSONPatchDataOperationsTest5.class,
 						POJOOperationsTest5.class, 
 						POJORepositoryOperationsTest4.class,
 						CustomPOJORepositoryOperationsTest4.class,
 						SpringDataOperationsTest4.class,
 						SemanticsDataOperationsTest3.class,
 						RowManagerOperationsTest5.class,
-						SemanticsDataOperationsTest4.class};
+						SemanticsDataOperationsTest4.class,
+						AlertingOperationsTest3.class};
 
 		Result results = JUnitCore.runClasses(ParallelComputer.methods(), cls);
 

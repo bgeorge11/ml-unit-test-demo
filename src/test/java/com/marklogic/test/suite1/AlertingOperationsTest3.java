@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 
 import javax.xml.namespace.QName;
 
@@ -18,6 +19,7 @@ import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.alerting.RuleDefinition;
 import com.marklogic.client.alerting.RuleDefinition.RuleMetadata;
+import com.marklogic.client.alerting.RuleDefinitionList;
 import com.marklogic.client.alerting.RuleManager;
 import com.marklogic.client.document.JSONDocumentManager;
 import com.marklogic.client.io.DocumentMetadataHandle;
@@ -110,30 +112,8 @@ public class AlertingOperationsTest3 extends AbstractApiTest {
 		return resultsHandle.getTotalResults();
 	}
 
-	public long deleteDocuments(DatabaseClient client, String COLLECTION_NAME) {
-		// create a manager for searching
-		QueryManager queryMgr = client.newQueryManager();
+	public RuleManager writeRuleToDatabase(DatabaseClient client) {
 
-		DeleteQueryDefinition ddf = queryMgr.newDeleteDefinition();
-		StringQueryDefinition query = queryMgr.newStringDefinition();
-
-		ddf.setCollections(COLLECTION_NAME);
-		queryMgr.delete(ddf);
-
-		query.setCollections(COLLECTION_NAME);
-
-		// create a handle for the search results
-		SearchHandle resultsHandle = new SearchHandle();
-
-		// run the search
-		queryMgr.search(query, resultsHandle);
-
-		return resultsHandle.getTotalResults();
-
-	}
-
-	public void writeRuleToDatabase(DatabaseClient client) {
-		
 		String methodName = new AlertingOperationsTest3() {
 		}.getClass().getEnclosingMethod().getName();
 		String className = this.getClass().getName();
@@ -148,18 +128,11 @@ public class AlertingOperationsTest3 extends AbstractApiTest {
 		RuleMetadata metadata = rule.getMetadata();
 		metadata.put(new QName("author"), "me");
 		// Configure the match query
-		String combinedQuery =
-		    "<search:search "+
-		            "xmlns:search='http://marklogic.com/appservices/search'>"+
-		      "<search:qtext>xdmp</search:qtext>"+
-		      "<search:options>"+
-		        "<search:term>"+
-		          "<search:term-option>case-sensitive</search:term-option>"+
-		        "</search:term>"+
-		      "</search:options>"+
-		    "</search:search>";
-		StringHandle qHandle = 
-		    new StringHandle(combinedQuery).withFormat(Format.XML);
+		String combinedQuery = "<search:search " + "xmlns:search='http://marklogic.com/appservices/search'>"
+				+ "<search:qtext>xdmp</search:qtext>" + "<search:options>" + "<search:term>"
+				+ "<search:term-option>case-sensitive</search:term-option>" + "</search:term>" + "</search:options>"
+				+ "</search:search>";
+		StringHandle qHandle = new StringHandle(combinedQuery).withFormat(Format.XML);
 		rule.importQueryDefinition(qHandle);
 		ruleMgr.writeRule(rule);
 		Date end = new Date();
@@ -167,7 +140,7 @@ public class AlertingOperationsTest3 extends AbstractApiTest {
 		genTestUtils.logComments(
 				"Execution time for Writing rule is " + (end.getTime() - start.getTime()) / 1000 + " seconds.",
 				LOGLEVEL);
-		
+		return ruleMgr;
 	}
 
 	@Test
@@ -186,30 +159,36 @@ public class AlertingOperationsTest3 extends AbstractApiTest {
 		// Find DB Name
 		DB_NAME = genTestUtils.getDBName(className, NAME_PREFIX);
 		assertNotEquals("ERROR", DB_NAME);
-		
+		DatabaseClient client = DatabaseClientFactory.newClient(ML_HOST, 8000, DB_NAME,
+				new DatabaseClientFactory.DigestAuthContext(ML_USER, ML_PASSWORD));
+		/*
+		 * Write a rule
+		 */
+		RuleManager ruleMgr = writeRuleToDatabase(client);
+
 		/*
 		 * Load some and count documents
 		 */
+		String doc = "<prefix>xdp</prefix>";
+		StringHandle handle = new StringHandle(doc).withFormat(Format.XML);
+		RuleDefinitionList matchedRules = 
+			    ruleMgr.match(handle, new RuleDefinitionList());
+		Iterator it = matchedRules.iterator();	
+		String ruleName = null;
+		RuleDefinition def;
+		while (it.hasNext())
+		{
+			def = (RuleDefinition) it.next();
+			ruleName = def.getName();
+		}
+		assertEquals("myRule",ruleName);
+		ruleMgr.delete("myRule");
 
-		DatabaseClient client = DatabaseClientFactory.newClient(ML_HOST, 8000, DB_NAME,
-				new DatabaseClientFactory.DigestAuthContext(ML_USER, ML_PASSWORD));
-		loadJSONDocuments(client, COLLECTION_NAME);
-		long countOfJsonDocs = countJSONDocuments(client, COLLECTION_NAME);
-		assertEquals(TOTAL_JSON_DOCS_ADDED.longValue(), countOfJsonDocs);
-		genTestUtils.logComments(new Date().toString() + " Loaded " + TOTAL_JSON_DOCS_ADDED + " documents.", LOGLEVEL);
-
-		/*
-		 * Write a rule 
-		 */
-		writeRuleToDatabase(client);
-		
 		Date end = new Date();
 		genTestUtils.logComments(end.toString() + " Ended Test Case: " + className, LOGLEVEL);
 		genTestUtils.logComments(
 				"Execution time for " + className + " is " + (end.getTime() - start.getTime()) / 1000 + " seconds.",
 				LOGLEVEL);
 	}
-
-	
 
 }
